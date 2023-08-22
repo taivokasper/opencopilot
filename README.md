@@ -36,7 +36,7 @@
 
 Copilots are becoming the new paradigm how to build successful LLM-based applications, as seen by Github , Shopify, Brex, Hubspot, etc Copilots. Yet, building a Copilot that goes beyond a Twitter demo is extremely complex as it's time-consuming, unreliable and feels like a massive undertaking. Moreover, existing solutions such as Microsoft Copilot Stack are closed-source. Building an LLM-app today feels like:
 
-![image](https://github.com/opencopilotdev/opencopilot/assets/3767980/f98def43-38b6-40ed-956b-8b5498c08318)
+![Author: Soham Chatterjee](https://github.com/opencopilotdev/opencopilot/assets/3767980/f98def43-38b6-40ed-956b-8b5498c08318)
 
 OpenCopilot solves this problem so building your own Copilot becomes intuitive, fast and reliable - all so **you can build your copilot in a single day**. For example, you can build Copilots such as:
 
