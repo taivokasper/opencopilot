@@ -1,7 +1,0 @@
-data:
-  loaders:
-    html:
-      sources:
-        - "downloads/Documentation/en/Manual"
-      base_url: "https://docs.unity3d.com/Manual/"
-      output: "serialized_documents_manual.json"
