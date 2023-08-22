@@ -61,9 +61,33 @@ Into a Python file (for example, `copilot.py`), add:
 ```python
 from opencopilot import OpenCopilot
 
-copilot = OpenCopilot()
+copilot = OpenCopilot(
+    openai_api_key="your-openai-api-key",
+    llm_model_name="gpt-4",
+    prompt_file="my_prompt.txt"
+    )
+
+# Run the copilot
 copilot()
 ```
+
+Make sure your custom prompt file exists: in `my_prompt.txt`, add the following:
+
+```txt
+Your are a Parrot Copilot.
+Your purpose is to repeat what the user says, but in a different wording.
+You can use the context and history to do so.
+
+=========
+{context}
+=========
+
+{history}
+User: {question}
+Parrot Copilot answer in Markdown:
+```
+
+The template variables will be filled at runtime; see our docs on [Prompting](https://docs.opencopilot.dev/improve/prompting) if you'd like to learn more.
 
 ### 3. Run the Copilot
 
@@ -76,7 +100,7 @@ That's it! The copilot is now running as an API service! 🎉 You can now chat w
 OpenCopilot by default helps you setup a Python API service for your copilot. That is intentional: we expect most people to integrate the functionality into their own application. However, if you want to setup a front-end for your copilot, we provide a working NextJS application out of the box. Follow the steps below to do so.
 
 
-### Front-end
+### Chat in front-end
 
 As a pre-requisite, you need to have [`pnpm`](https://pnpm.io/) installed.
 
@@ -116,6 +140,6 @@ You can now access the front-end at http://localhost:3001.
 
 If you have any questions about OpenCopilot, feel free to do any of the following:
 
-* Join our [Discord](https://discord.gg/AmdF5d94vE) and ask in the **#support** channel.
+* Join our [Discord](https://discord.gg/AmdF5d94vE) and ask.
 * Report bugs or feature requests in [GitHub issues](https://github.com/opencopilotdev/opencopilot/issues).
 * Directly email Taivo, Co-founder & CTO of OpenCopilot: `taivo [at] opencopilot.dev`.
