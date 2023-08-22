@@ -9,7 +9,7 @@ from starlette.types import ASGIApp
 
 from opencopilot.logger import api_logger
 from opencopilot.service.middleware import util
-from opencopilot.service.middleware.entitites import RequestStateKey
+from opencopilot.service.middleware.entities import RequestStateKey
 
 logger = api_logger.get()
 
