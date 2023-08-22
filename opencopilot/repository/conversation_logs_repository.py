@@ -10,7 +10,7 @@ from opencopilot.logger import api_logger
 
 logger = api_logger.get()
 
-DEFAULT_CONVERSATION_LOGS_DIR = "conversation_logs"
+DEFAULT_CONVERSATION_LOGS_DIR = "logs/conversation_logs"
 
 
 class ConversationLogsRepositoryLocal:
