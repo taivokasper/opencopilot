@@ -57,7 +57,11 @@ class Settings:
     def __post_init__(self):
         os.environ["OPENAI_API_KEY"] = self.OPENAI_API_KEY
 
-        if self.AUTH_TYPE is not None and (self.AUTH_TYPE == "none" or self.AUTH_TYPE == "None" or self.AUTH_TYPE.strip() == ""):
+        if self.AUTH_TYPE is not None and (
+            self.AUTH_TYPE == "none"
+            or self.AUTH_TYPE == "None"
+            or self.AUTH_TYPE.strip() == ""
+        ):
             self.AUTH_TYPE = None
 
         self.COPILOT_DIRECTORY = f"copilots/{self.COPILOT_NAME}"
@@ -77,7 +81,9 @@ class Settings:
 
     def _get_prompt_key(self, key: str) -> Optional[str]:
         try:
-            with open(f"{self.COPILOT_DIRECTORY}/prompts/prompt_configuration.json", "r") as f:
+            with open(
+                f"{self.COPILOT_DIRECTORY}/prompts/prompt_configuration.json", "r"
+            ) as f:
                 prompt_configuration = json.load(f)
             return prompt_configuration.get(key) or None
         except:
@@ -107,6 +113,7 @@ def init_prompt_file_location(file_path: str) -> bool:
             settings.PROMPT_FILE = file_path
             return True
     return False
+
 
 _settings: Optional[Settings] = None
 

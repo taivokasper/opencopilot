@@ -16,7 +16,11 @@ class CachedOpenAIEmbeddings(OpenAIEmbeddings):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         object.__setattr__(self, "_cache", {})
-        object.__setattr__(self, "_embeddings_cache_filename", settings.get().COPILOT_NAME + "_embeddings_cache.pkl")
+        object.__setattr__(
+            self,
+            "_embeddings_cache_filename",
+            settings.get().COPILOT_NAME + "_embeddings_cache.pkl",
+        )
         self._load_local_cache()
 
     def embed_documents(self, texts: List[str], **kwargs) -> List[List[float]]:
@@ -59,7 +63,9 @@ class CachedOpenAIEmbeddings(OpenAIEmbeddings):
                 with open(self._embeddings_cache_filename, "wb") as f:
                     pickle.dump(self._cache, f)
             except Exception as e:
-                logger.warning(f"Failed to save embeddings cache to {self._embeddings_cache_filename}")
+                logger.warning(
+                    f"Failed to save embeddings cache to {self._embeddings_cache_filename}"
+                )
 
 
 def execute(use_local_cache: bool = False):
@@ -72,7 +78,8 @@ def execute(use_local_cache: bool = False):
             "Helicone-Cache-Enabled": "true",
         }
     return CachedOpenAIEmbeddings(
-        disallowed_special=(), use_local_cache=use_local_cache,
+        disallowed_special=(),
+        use_local_cache=use_local_cache,
         openai_api_base=openai_api_base,
-        headers=headers
+        headers=headers,
     )

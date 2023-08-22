@@ -20,8 +20,6 @@ logger = api_logger.get()
     response_model=TokenResponse,
 )
 async def evaluate(
-        request: TokenRequest = Body(
-            ...,
-            description="Token generation input")
+    request: TokenRequest = Body(..., description="Token generation input")
 ):
     return token_service.execute(request)

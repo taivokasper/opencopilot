@@ -5,19 +5,22 @@ from uuid import UUID
 
 from opencopilot.domain.debug.entities import MessageDebugResult
 from opencopilot.domain.debug.entities import TextWithTokens
-from opencopilot.repository.conversation_history_repository import ConversationHistoryRepositoryLocal
-from opencopilot.repository.conversation_logs_repository import ConversationLogsRepositoryLocal
+from opencopilot.repository.conversation_history_repository import (
+    ConversationHistoryRepositoryLocal,
+)
+from opencopilot.repository.conversation_logs_repository import (
+    ConversationLogsRepositoryLocal,
+)
 
 
 def execute(
-        conversation_id: UUID,
-        message_id: str,
-        history_repository: ConversationHistoryRepositoryLocal,
-        logs_repository: ConversationLogsRepositoryLocal,
+    conversation_id: UUID,
+    message_id: str,
+    history_repository: ConversationHistoryRepositoryLocal,
+    logs_repository: ConversationLogsRepositoryLocal,
 ) -> MessageDebugResult:
     history = history_repository.get_history(conversation_id)
-    logs_history = logs_repository.get_logs_by_message(
-        conversation_id, message_id)
+    logs_history = logs_repository.get_logs_by_message(conversation_id, message_id)
     return MessageDebugResult(
         prompt_template=_get_logs_history_value(logs_history, "prompt_template"),
         data_sources=None,
@@ -30,9 +33,9 @@ def execute(
 
 
 def _get_history_value(
-        history: List[Dict],
-        message_id: str,
-        value_key: str,
+    history: List[Dict],
+    message_id: str,
+    value_key: str,
 ) -> Optional[TextWithTokens]:
     for h in history:
         if h.get("response_message_id") == message_id:
@@ -45,8 +48,8 @@ def _get_history_value(
 
 
 def _get_logs_history_value(
-        history: List[Dict],
-        value_key: str,
+    history: List[Dict],
+    value_key: str,
 ) -> Optional[TextWithTokens]:
     for h in history:
         if value := h.get(value_key):

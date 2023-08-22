@@ -6,18 +6,22 @@ from opencopilot.domain.chat.entities import MessageModel
 from opencopilot.domain.chat.entities import UserMessageInput
 from opencopilot.domain.chat.results import get_gpt_result_use_case
 from opencopilot.domain.chat.utils import get_system_message
-from opencopilot.repository.conversation_history_repository import ConversationHistoryRepositoryLocal
-from opencopilot.repository.conversation_logs_repository import ConversationLogsRepositoryLocal
+from opencopilot.repository.conversation_history_repository import (
+    ConversationHistoryRepositoryLocal,
+)
+from opencopilot.repository.conversation_logs_repository import (
+    ConversationLogsRepositoryLocal,
+)
 from opencopilot.repository.documents.document_store import DocumentStore
 
 logger = api_logger.get()
 
 
 async def execute(
-        domain_input: UserMessageInput,
-        document_store: DocumentStore,
-        history_repository: ConversationHistoryRepositoryLocal,
-        logs_repository: ConversationLogsRepositoryLocal,
+    domain_input: UserMessageInput,
+    document_store: DocumentStore,
+    history_repository: ConversationHistoryRepositoryLocal,
+    logs_repository: ConversationLogsRepositoryLocal,
 ) -> MessageModel:
     system_message = get_system_message()
     context = []
@@ -44,10 +48,6 @@ async def execute(
         domain_input.chat_id,
         domain_input.response_message_id,
     )
-    sources = [document.metadata.get('source') for document in context]
+    sources = [document.metadata.get("source") for document in context]
 
-    return MessageModel(
-        chat_id=domain_input.chat_id,
-        content=result,
-        sources=sources
-    )
+    return MessageModel(chat_id=domain_input.chat_id, content=result, sources=sources)

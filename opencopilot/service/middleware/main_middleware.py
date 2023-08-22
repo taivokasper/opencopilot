@@ -19,7 +19,9 @@ class MainMiddleware(BaseHTTPMiddleware):
     def __init__(self, app: ASGIApp) -> None:
         super().__init__(app)
 
-    async def dispatch(self, request: Request, call_next: RequestResponseEndpoint) -> Response:
+    async def dispatch(
+        self, request: Request, call_next: RequestResponseEndpoint
+    ) -> Response:
         request_id = util.get_state(request, RequestStateKey.REQUEST_ID)
         ip_address = util.get_state(request, RequestStateKey.IP_ADDRESS)
         country = util.get_state(request, RequestStateKey.COUNTRY)
@@ -36,7 +38,7 @@ class MainMiddleware(BaseHTTPMiddleware):
 
             duration = time.time() - before
             process_time = (time.time() - before) * 1000
-            formatted_process_time = '{0:.2f}'.format(process_time)
+            formatted_process_time = "{0:.2f}".format(process_time)
             if response.status_code != 404:
                 logger.info(
                     f"REQUEST COMPLETED "
@@ -55,13 +57,14 @@ class MainMiddleware(BaseHTTPMiddleware):
                     f"status code={error.to_status_code()}"
                     f"code={error.to_code()}"
                     f"message={error.to_message()}",
-                    exc_info=is_exc_info
+                    exc_info=is_exc_info,
                 )
             else:
                 logger.error(
                     f"Error while handling request. request_id={request_id} "
                     f"request_path={request.url.path}",
-                    exc_info=True)
+                    exc_info=True,
+                )
             raise error
 
 

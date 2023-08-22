@@ -14,9 +14,9 @@ cache: List[CacheObject] = []
 
 
 def execute(
-        text: str,
-        llm: BaseChatModel,
-        is_use_cache: bool = False,
+    text: str,
+    llm: BaseChatModel,
+    is_use_cache: bool = False,
 ) -> int:
     if not is_use_cache:
         return llm.get_num_tokens(text)
@@ -25,8 +25,5 @@ def execute(
         if c.text == text:
             return c.token_count
     token_count = llm.get_num_tokens(text)
-    cache.append(CacheObject(
-        text=text,
-        token_count=token_count
-    ))
+    cache.append(CacheObject(text=text, token_count=token_count))
     return token_count

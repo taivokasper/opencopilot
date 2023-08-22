@@ -46,7 +46,9 @@ def main():
     json_docs = [d.json() for d in scraped_documents]
     formatted_docs = [json.loads(d) for d in json_docs]
 
-    with open("../../copilots/llm/data/serialized_documents_langchain_docs.json", "w") as f:
+    with open(
+        "../../copilots/llm/data/serialized_documents_langchain_docs.json", "w"
+    ) as f:
         f.write(json.dumps(formatted_docs, indent=4))
 
 
@@ -57,12 +59,14 @@ def _scrape_url_contents(all_urls: List[str]) -> List[Document]:
         soup = _scrape_html_with_playwright(url)
         tags = soup.find_all("div", class_="theme-doc-markdown")
         if len(tags):
-            docs.append(Document(
-                page_content=tags[0].text,
-                metadata={
-                    "source": url,
-                }
-            ))
+            docs.append(
+                Document(
+                    page_content=tags[0].text,
+                    metadata={
+                        "source": url,
+                    },
+                )
+            )
         else:
             print(f"Failed for url: {url}")
         time.sleep(0.3)
@@ -90,5 +94,5 @@ def _scrape_html_with_playwright(url) -> Optional[BeautifulSoup]:
     return soup
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

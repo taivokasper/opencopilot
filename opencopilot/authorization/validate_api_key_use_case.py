@@ -25,7 +25,9 @@ async def execute(api_key_header: str = Security(API_KEY_HEADER)) -> Optional[st
 
 async def _validate_jwt(payload: str) -> str:
     try:
-        payload = jwt.decode(payload, settings.get().JWT_CLIENT_SECRET, algorithms=['HS256'])
+        payload = jwt.decode(
+            payload, settings.get().JWT_CLIENT_SECRET, algorithms=["HS256"]
+        )
         return payload.get("sub")
     except:
         raise error_responses.AuthorizationMissingAPIError

@@ -4,12 +4,14 @@ import openai
 from langchain.chat_models import ChatOpenAI
 
 from opencopilot import settings
-from opencopilot.utils.callbacks.callback_handler import CustomAsyncIteratorCallbackHandler
+from opencopilot.utils.callbacks.callback_handler import (
+    CustomAsyncIteratorCallbackHandler,
+)
 
 
 def execute(
-        email: str = None,
-        callback: CustomAsyncIteratorCallbackHandler = None,
+    email: str = None,
+    callback: CustomAsyncIteratorCallbackHandler = None,
 ) -> ChatOpenAI:
     if settings.get().HELICONE_API_KEY:
         openai.api_base = settings.get().HELICONE_BASE_URL
@@ -18,7 +20,7 @@ def execute(
         model_name=settings.get().MODEL,
         streaming=callback is not None,
         callbacks=[callback] if callback is not None else None,
-        headers=_get_headers(email)
+        headers=_get_headers(email),
     )
     return llm
 
@@ -30,6 +32,8 @@ def _get_headers(email: str = None) -> Optional[Dict]:
             "Helicone-User-Id": email or "",
         }
         if email and settings.get().HELICONE_RATE_LIMIT_POLICY:
-            headers["Helicone-RateLimit-Policy"] = settings.get().HELICONE_RATE_LIMIT_POLICY
+            headers[
+                "Helicone-RateLimit-Policy"
+            ] = settings.get().HELICONE_RATE_LIMIT_POLICY
         return headers
     return None

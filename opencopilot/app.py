@@ -5,16 +5,17 @@ from starlette.middleware.cors import CORSMiddleware
 
 from opencopilot import settings
 from opencopilot.routers import main_router, routing_utils
-from opencopilot.service.exception_handlers.exception_handlers import custom_exception_handler
+from opencopilot.service.exception_handlers.exception_handlers import (
+    custom_exception_handler,
+)
 from opencopilot.service.middleware.main_middleware import MainMiddleware
-from opencopilot.service.middleware.request_enrichment_middleware import RequestEnrichmentMiddleware
+from opencopilot.service.middleware.request_enrichment_middleware import (
+    RequestEnrichmentMiddleware,
+)
 
 app = FastAPI()
 
-app.include_router(
-    main_router.router,
-    prefix="/v0"
-)
+app.include_router(main_router.router, prefix="/v0")
 
 API_TITLE = "API"
 API_DESCRIPTION = "API"
@@ -31,7 +32,7 @@ class ApiInfo(BaseModel):
             "example": {
                 "title": API_TITLE,
                 "description": API_DESCRIPTION,
-                "version": API_VERSION
+                "version": API_VERSION,
             }
         }
 
@@ -45,22 +46,12 @@ def custom_openapi():
         version="1.0.0",
         description="API version 1.0.0",
         routes=app.routes,
-        servers=_get_servers()
+        servers=_get_servers(),
     )
-    openapi_schema["info"]["contact"] = {
-        "name": "",
-        "email": ""
-    }
-    openapi_schema["info"]["x-logo"] = {
-        "url": ""
-    }
+    openapi_schema["info"]["contact"] = {"name": "", "email": ""}
+    openapi_schema["info"]["x-logo"] = {"url": ""}
     openapi_schema["x-readme"] = {
-        "samples-languages": [
-            "curl",
-            "node",
-            "javascript",
-            "python"
-        ]
+        "samples-languages": ["curl", "node", "javascript", "python"]
     }
     app.openapi_schema = openapi_schema
     return app.openapi_schema
@@ -103,11 +94,7 @@ app.add_exception_handler(Exception, custom_exception_handler)
 
 
 def get_api_info() -> ApiInfo:
-    return ApiInfo(
-        title=API_VERSION,
-        description=API_DESCRIPTION,
-        version=API_VERSION
-    )
+    return ApiInfo(title=API_VERSION, description=API_DESCRIPTION, version=API_VERSION)
 
 
 @app.get(
@@ -116,6 +103,7 @@ def get_api_info() -> ApiInfo:
     description="Returns API information",
     response_description="API information with title, description and version.",
     response_model=ApiInfo,
-    include_in_schema=not settings.get().is_production())
+    include_in_schema=not settings.get().is_production(),
+)
 def root():
     return routing_utils.to_json_response(get_api_info().dict())

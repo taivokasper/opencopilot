@@ -3,7 +3,9 @@ from dataclasses import dataclass
 from uuid import UUID
 
 from opencopilot import settings
-from opencopilot.repository.conversation_history_repository import ConversationHistoryRepositoryLocal
+from opencopilot.repository.conversation_history_repository import (
+    ConversationHistoryRepositoryLocal,
+)
 
 
 @dataclass(frozen=True)
@@ -13,13 +15,14 @@ class History:
 
 
 def add_history(
-        template: str,
-        chat_id: UUID,
-        history_repository: ConversationHistoryRepositoryLocal,
+    template: str,
+    chat_id: UUID,
+    history_repository: ConversationHistoryRepositoryLocal,
 ) -> History:
     os.makedirs(settings.get().CONVERSATIONS_DIR, exist_ok=True)
     history = history_repository.get_prompt_history(
-        chat_id, settings.get().PROMPT_HISTORY_INCLUDED_COUNT)
+        chat_id, settings.get().PROMPT_HISTORY_INCLUDED_COUNT
+    )
     history = history.replace("{", "{{").replace("}", "}}")
     return History(
         template_with_history=template.replace("{history}", history, 1),

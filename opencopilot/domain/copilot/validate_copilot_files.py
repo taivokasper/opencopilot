@@ -38,14 +38,8 @@ def execute(relative_directory_path: str) -> ValidateCopilotResult:
                 error_results.append(result)
 
     if error_results:
-        return ValidateCopilotResult(
-            is_valid=False,
-            error_results=error_results
-        )
-    return ValidateCopilotResult(
-        is_valid=True,
-        error_results=[]
-    )
+        return ValidateCopilotResult(is_valid=False, error_results=error_results)
+    return ValidateCopilotResult(is_valid=True, error_results=[])
 
 
 def _validate_required_files(relative_directory_path: str) -> List[ValidateFileResult]:
@@ -57,36 +51,35 @@ def _validate_required_files(relative_directory_path: str) -> List[ValidateFileR
     for file in files_to_check:
         file_path = os.path.join(relative_directory_path, file)
         if not os.path.exists(file_path):
-            result.append(ValidateFileResult(
-                is_valid=False,
-                error_message=f"Missing {file} file"
-            ))
+            result.append(
+                ValidateFileResult(is_valid=False, error_message=f"Missing {file} file")
+            )
     return result
 
 
 def _validate_prompt_template(relative_directory_path: str) -> List[ValidateFileResult]:
-    required_params = [
-        "{context}",
-        "{history}",
-        "{question}"
-    ]
+    required_params = ["{context}", "{history}", "{question}"]
     file_path = os.path.join(relative_directory_path, "prompts/prompt_template.txt")
     if os.path.exists(file_path):
         content = _read_file(file_path)
         for param in required_params:
             count = _find_word_count_in_string(param, content)
             if count == 0:
-                return [ValidateFileResult(
-                    is_valid=False,
-                    error_message='Prompt template (prompts/prompt_template.txt) is missing {context}'
-                                  ', {history} or {question}'
-                )]
+                return [
+                    ValidateFileResult(
+                        is_valid=False,
+                        error_message="Prompt template (prompts/prompt_template.txt) is missing {context}"
+                        ", {history} or {question}",
+                    )
+                ]
             elif count > 1:
-                return [ValidateFileResult(
-                    is_valid=False,
-                    error_message='Prompt template (prompts/prompt_template.txt) is having duplicate of {context}, '
-                                  '{history} or {question}'
-                )]
+                return [
+                    ValidateFileResult(
+                        is_valid=False,
+                        error_message="Prompt template (prompts/prompt_template.txt) is having duplicate of {context}, "
+                        "{history} or {question}",
+                    )
+                ]
     return []
 
 
@@ -107,37 +100,39 @@ def _validate_file(file_path: str) -> ValidateFileResult:
             json.loads(content)
         except:
             return ValidateFileResult(
-                is_valid=False,
-                error_message=f"Cannot load json file: {file_path}")
+                is_valid=False, error_message=f"Cannot load json file: {file_path}"
+            )
     elif ext == ".csv":
         try:
-            with open(file_path, newline='') as csvfile:
+            with open(file_path, newline="") as csvfile:
                 dialect = csv.Sniffer().sniff(csvfile.read(1024))
 
-            loader = CSVLoader(file_path=file_path, csv_args={
-                'delimiter': dialect.delimiter,
-            })
+            loader = CSVLoader(
+                file_path=file_path,
+                csv_args={
+                    "delimiter": dialect.delimiter,
+                },
+            )
             loader.load()
         except:
             return ValidateFileResult(
-                is_valid=False,
-                error_message=f"Cannot csv json file: {file_path}")
+                is_valid=False, error_message=f"Cannot csv json file: {file_path}"
+            )
     elif ext == ".pdf":
         try:
             loader = PyPDFLoader(file_path)
             loader.load()
         except:
             return ValidateFileResult(
-                is_valid=False,
-                error_message=f"Cannot load pdf file: {file_path}")
-    elif file_path.endswith('.xls') or file_path.endswith('.xlsx'):
+                is_valid=False, error_message=f"Cannot load pdf file: {file_path}"
+            )
+    elif file_path.endswith(".xls") or file_path.endswith(".xlsx"):
         try:
             loader = UnstructuredExcelLoader(file_path)
             loader.load()
         except:
             return ValidateFileResult(
-                is_valid=False,
-                error_message=f"Cannot load excel file: {file_path}"
+                is_valid=False, error_message=f"Cannot load excel file: {file_path}"
             )
     return ValidateFileResult(is_valid=True)
 

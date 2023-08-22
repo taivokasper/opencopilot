@@ -14,27 +14,29 @@ from opencopilot.domain.chat.entities import StreamingChunk
 from opencopilot.domain.chat.entities import UserMessageInput
 from opencopilot.domain.chat.results import get_gpt_result_use_case
 from opencopilot.domain.chat.utils import get_system_message
-from opencopilot.repository.conversation_history_repository import ConversationHistoryRepositoryLocal
-from opencopilot.repository.conversation_logs_repository import ConversationLogsRepositoryLocal
+from opencopilot.repository.conversation_history_repository import (
+    ConversationHistoryRepositoryLocal,
+)
+from opencopilot.repository.conversation_logs_repository import (
+    ConversationLogsRepositoryLocal,
+)
 from opencopilot.repository.documents.document_store import DocumentStore
-from opencopilot.utils.callbacks.callback_handler import CustomAsyncIteratorCallbackHandler
+from opencopilot.utils.callbacks.callback_handler import (
+    CustomAsyncIteratorCallbackHandler,
+)
 
 logger = api_logger.get()
 
 
 async def execute(
-        domain_input: UserMessageInput,
-        document_store: DocumentStore,
-        history_repository: ConversationHistoryRepositoryLocal,
-        logs_repository: ConversationLogsRepositoryLocal,
+    domain_input: UserMessageInput,
+    document_store: DocumentStore,
+    history_repository: ConversationHistoryRepositoryLocal,
+    logs_repository: ConversationLogsRepositoryLocal,
 ) -> AsyncGenerator[StreamingChunk, None]:
     system_message = get_system_message()
 
-    context = _get_context(
-        domain_input,
-        system_message,
-        document_store
-    )
+    context = _get_context(domain_input, system_message, document_store)
     message_timestamp = datetime.now().timestamp()
 
     callback = CustomAsyncIteratorCallbackHandler()
@@ -93,9 +95,7 @@ async def execute(
 
 
 def _get_context(
-        domain_input: UserMessageInput,
-        system_message: str,
-        document_store: DocumentStore
+    domain_input: UserMessageInput, system_message: str, document_store: DocumentStore
 ) -> List[Document]:
     # TODO: handle context length and all the edge cases somehow a bit better
     context = []
@@ -104,7 +104,7 @@ def _get_context(
         context.extend(
             document_store.find(
                 domain_input.message,
-                k=settings.get().MAX_CONTEXT_DOCUMENTS_COUNT - len(context)
+                k=settings.get().MAX_CONTEXT_DOCUMENTS_COUNT - len(context),
             )
         )
     return context

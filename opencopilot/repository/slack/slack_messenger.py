@@ -5,9 +5,7 @@ import requests
 from opencopilot import settings
 from opencopilot.logger import api_logger
 
-HEADERS = {
-    "Content-type": "application/json"
-}
+HEADERS = {"Content-type": "application/json"}
 
 logger = api_logger.get()
 
@@ -35,9 +33,8 @@ def _get_data(error_description: str, error: str):
                 "type": "section",
                 "text": {
                     "type": "mrkdwn",
-                    "text": "*{}*\n\nError: {}".format(
-                        error_description, error)
-                }
+                    "text": "*{}*\n\nError: {}".format(error_description, error),
+                },
             }
         ]
     }

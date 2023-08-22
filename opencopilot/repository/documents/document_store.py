@@ -51,7 +51,7 @@ class WeaviateDocumentStore(DocumentStore):
     def _get_weaviate_client(self):
         return weaviate.Client(
             url=settings.get().WEAVIATE_URL,
-            timeout_config=(10, settings.get().WEAVIATE_READ_TIMEOUT)
+            timeout_config=(10, settings.get().WEAVIATE_READ_TIMEOUT),
         )
 
     def _get_vector_store(self):
@@ -63,17 +63,21 @@ class WeaviateDocumentStore(DocumentStore):
             text_key="text",
             embedding=self.embeddings,
             attributes=attributes,
-            by_text=False
+            by_text=False,
         )
 
     def ingest_data(self, documents: List[Document]):
         self.documents = documents
         batch_size = self.ingest_batch_size
-        print(f"Got {len(documents)} documents, embedding with batch size: {batch_size}")
+        print(
+            f"Got {len(documents)} documents, embedding with batch size: {batch_size}"
+        )
         self.weaviate_client.schema.delete_all()
 
-        for i in tqdm.tqdm(range(0, int(len(documents) / batch_size) + 1), desc="Embedding.."):
-            batch = documents[i * batch_size: (i + 1) * batch_size]
+        for i in tqdm.tqdm(
+            range(0, int(len(documents) / batch_size) + 1), desc="Embedding.."
+        ):
+            batch = documents[i * batch_size : (i + 1) * batch_size]
             self.vector_store.add_documents(batch)
 
         self.embeddings.save_local_cache()
@@ -81,10 +85,7 @@ class WeaviateDocumentStore(DocumentStore):
 
     def find(self, query: str, **kwargs) -> List[Document]:
         k = kwargs.get("k") or settings.get().MAX_CONTEXT_DOCUMENTS_COUNT
-        documents = self.vector_store.similarity_search(
-            query,
-            k=k
-        )
+        documents = self.vector_store.similarity_search(query, k=k)
         return documents[:k]
 
 

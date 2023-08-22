@@ -16,17 +16,18 @@ logger = api_logger.get()
 
 
 class ConversationUserContextRepositoryLocal:
-
     def __init__(self, contexts_dir: str = DEFAULT_CONTEXTS_DIR):
         self.contexts_dir = contexts_dir
 
-    def get_context_documents(self, chat_id: UUID, count: Optional[int]) -> List[Document]:
+    def get_context_documents(
+        self, chat_id: UUID, count: Optional[int]
+    ) -> List[Document]:
         try:
             with open(self._get_file_path(chat_id), "r") as f:
                 context = json.load(f)
             if not count or len(context) <= count:
                 return self._to_documents(context)
-            return self._to_documents(context[count * -1:])
+            return self._to_documents(context[count * -1 :])
         except:
             logger.error(f"Error loading conversation context, id: {str(chat_id)}")
         return []
@@ -47,17 +48,14 @@ class ConversationUserContextRepositoryLocal:
                 Document(
                     page_content=i.get("context", ""),
                     metadata={
-                        "timestamp": i.get('timestamp', ''),
-                        "source": "user_context"
-                    }
+                        "timestamp": i.get("timestamp", ""),
+                        "source": "user_context",
+                    },
                 )
             )
         return documents
 
-    def save_context(
-            self,
-            context_input: ChatContextInput
-    ) -> None:
+    def save_context(self, context_input: ChatContextInput) -> None:
         # context = self.get_context(context_input.conversation_id)
         # context.append()
         self._write_file(
@@ -65,7 +63,7 @@ class ConversationUserContextRepositoryLocal:
             data=[
                 {
                     "timestamp": datetime.now().isoformat(),
-                    "context": context_input.context
+                    "context": context_input.context,
                 }
             ],
         )

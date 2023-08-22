@@ -20,9 +20,7 @@ class GetMessageDebugResponse(ApiResponse):
     data_sources: Optional[str] = Field(
         description="List of data sources used in string json format."
     )
-    user_question: Optional[ValueWithTokens] = Field(
-        description="User question."
-    )
+    user_question: Optional[ValueWithTokens] = Field(description="User question.")
     # citations: List[str] = Field(
     #     description="List of citations used in the final prompt."
     # )
@@ -35,9 +33,7 @@ class GetMessageDebugResponse(ApiResponse):
     full_prompt: Optional[ValueWithTokens] = Field(
         description="Final prompt used in the LLM call."
     )
-    llm_response: Optional[ValueWithTokens] = Field(
-        description="LLM answer."
-    )
+    llm_response: Optional[ValueWithTokens] = Field(description="LLM answer.")
 
     class Config:
         schema_extra = {
@@ -45,11 +41,15 @@ class GetMessageDebugResponse(ApiResponse):
                 "response": "OK",
                 "prompt_template": "You are a copilot.\n{context} {history} {answer}",
                 # TODO:
-                "data_sources": ['{}'],
+                "data_sources": ["{}"],
                 "user_question": "Who are you?",
                 # "citations": "Who are you?",
-                "context": ['[{"page_content": "This is some text from the data files.", "metadata": {"source": "copilots/data/test.txt"}}]'],
-                "chat_history": ['[{"user": "Who are you?", {"copilot": "I am a copilot."}]'],
+                "context": [
+                    '[{"page_content": "This is some text from the data files.", "metadata": {"source": "copilots/data/test.txt"}}]'
+                ],
+                "chat_history": [
+                    '[{"user": "Who are you?", {"copilot": "I am a copilot."}]'
+                ],
                 "full_prompt": "Full formatted prompt text here",
                 "llm_response": "I am a copilot.",
             }
@@ -57,15 +57,9 @@ class GetMessageDebugResponse(ApiResponse):
 
 
 class EvaluationInput(BaseModel):
-    query: str = Field(
-        description="Query sent to the conversation endpoint."
-    )
-    answer: str = Field(
-        description="Answer from the conversation endpoint."
-    )
-    expected_answer: str = Field(
-        description="Expected answer."
-    )
+    query: str = Field(description="Query sent to the conversation endpoint.")
+    answer: str = Field(description="Answer from the conversation endpoint.")
+    expected_answer: str = Field(description="Expected answer.")
 
 
 class EvaluationResponse(ApiResponse):

@@ -11,18 +11,24 @@ from pydantic import validator
 
 from opencopilot.logger import api_logger
 from opencopilot.authorization import validate_api_key_use_case
-from opencopilot.repository.conversation_history_repository import \
-    ConversationHistoryRepositoryLocal
-from opencopilot.repository.conversation_logs_repository import ConversationLogsRepositoryLocal
-from opencopilot.repository.conversation_user_context_repository import \
-    ConversationUserContextRepositoryLocal
+from opencopilot.repository.conversation_history_repository import (
+    ConversationHistoryRepositoryLocal,
+)
+from opencopilot.repository.conversation_logs_repository import (
+    ConversationLogsRepositoryLocal,
+)
+from opencopilot.repository.conversation_user_context_repository import (
+    ConversationUserContextRepositoryLocal,
+)
 from opencopilot.repository.documents import document_store
 from opencopilot.routers import routing_utils
 from opencopilot.service import utils
 from opencopilot.service.chat import chat_context_service, chat_service
-from opencopilot.service.chat import chat_feedback_service, \
-    chat_streaming_service, \
-    chat_history_service
+from opencopilot.service.chat import (
+    chat_feedback_service,
+    chat_streaming_service,
+    chat_history_service,
+)
 from opencopilot.service.chat.entities import ChatContextRequest
 from opencopilot.service.chat.entities import ChatFeedbackRequest
 from opencopilot.service.chat.entities import ChatHistoryRequest, ChatHistoryResponse
@@ -85,21 +91,24 @@ class ConversationInput(BaseModel):
 @router.post(
     "/conversation/{conversation_id}",
     summary="Send message to the base copilot.",
-    tags=[TAG]
+    tags=[TAG],
 )
 async def handle_conversation(
-        email: Optional[str] = Header(default=None),
-        conversation_id: str = Path(...,
-                                    description="The ID of the conversation. To start a new conversation, you should pass in a random uuid (Python: `import uuid; uuid.uuid4()`). To continue a conversation, re-use the same uuid."),
-        payload: ConversationInput = Body(...,
-                                          description="Input and parameters for the conversation."),
-        user_id: str = Depends(validate_api_key_use_case.execute)
+    email: Optional[str] = Header(default=None),
+    conversation_id: str = Path(
+        ...,
+        description="The ID of the conversation. To start a new conversation, you should pass in a random uuid (Python: `import uuid; uuid.uuid4()`). To continue a conversation, re-use the same uuid.",
+    ),
+    payload: ConversationInput = Body(
+        ..., description="Input and parameters for the conversation."
+    ),
+    user_id: str = Depends(validate_api_key_use_case.execute),
 ):
     request = ChatRequest(
         chat_id=conversation_id,
         message=payload.inputs,
         response_message_id=payload.response_message_id,
-        email=user_id or email
+        email=user_id or email,
     )
 
     history_repository = ConversationHistoryRepositoryLocal()
@@ -111,10 +120,9 @@ async def handle_conversation(
         history_repository,
         logs_repository,
     )
-    return routing_utils.to_json_response({
-        "generated_text": response.message,
-        "sources": response.sources
-    })
+    return routing_utils.to_json_response(
+        {"generated_text": response.message, "sources": response.sources}
+    )
 
 
 @router.post(
@@ -124,14 +132,13 @@ async def handle_conversation(
     response_model=ApiResponse,
 )
 async def post_feedback(
-        conversation_id: str = Path(..., description="The ID of the conversation."),
-        payload: ChatFeedbackRequest = Body(..., description="User feedback")
+    conversation_id: str = Path(..., description="The ID of the conversation."),
+    payload: ChatFeedbackRequest = Body(..., description="User feedback"),
 ):
     history_repository = ConversationHistoryRepositoryLocal()
     response = chat_feedback_service.execute(
-        conversation_id=conversation_id,
-        request=payload,
-        repository=history_repository)
+        conversation_id=conversation_id, request=payload, repository=history_repository
+    )
     return routing_utils.to_json_response(response.dict())
 
 
@@ -142,14 +149,13 @@ async def post_feedback(
     response_model=ApiResponse,
 )
 async def post_context(
-        conversation_id: str = Path(..., description="The ID of the conversation."),
-        payload: ChatContextRequest = Body(..., description="User context")
+    conversation_id: str = Path(..., description="The ID of the conversation."),
+    payload: ChatContextRequest = Body(..., description="User context"),
 ):
     context_repository = ConversationUserContextRepositoryLocal()
     response = chat_context_service.execute(
-        conversation_id=conversation_id,
-        request=payload,
-        repository=context_repository)
+        conversation_id=conversation_id, request=payload, repository=context_repository
+    )
     return routing_utils.to_json_response(response.dict())
 
 
@@ -157,28 +163,29 @@ async def post_context(
     "/conversation_stream/{conversation_id}",
     summary="Send message to the base copilot and get the response as a stream.",
     response_description=STREAM_RESPONSE_DESCRIPTION,
-    tags=[TAG]
+    tags=[TAG],
 )
 async def handle_conversation_streaming(
-        email: Optional[str] = Header(default=None),
-        conversation_id: str = Path(..., description="The ID of the conversation."),
-        payload: ConversationInput = Body(...,
-                                          description="Input and parameters for the conversation."),
-        user_id: str = Depends(validate_api_key_use_case.execute)
+    email: Optional[str] = Header(default=None),
+    conversation_id: str = Path(..., description="The ID of the conversation."),
+    payload: ConversationInput = Body(
+        ..., description="Input and parameters for the conversation."
+    ),
+    user_id: str = Depends(validate_api_key_use_case.execute),
 ):
     request = ChatRequest(
         chat_id=conversation_id,
         message=payload.inputs,
         response_message_id=payload.response_message_id,
-        email=user_id or email
+        email=user_id or email,
     )
 
     history_repository = ConversationHistoryRepositoryLocal()
     logs_repository = ConversationLogsRepositoryLocal()
 
     headers = {
-        'X-Content-Type-Options': 'nosniff',
-        'Connection': 'keep-alive',
+        "X-Content-Type-Options": "nosniff",
+        "Connection": "keep-alive",
     }
     return StreamingResponse(
         chat_streaming_service.execute(
@@ -188,17 +195,17 @@ async def handle_conversation_streaming(
             logs_repository,
         ),
         headers=headers,
-        media_type="text/event-stream"
+        media_type="text/event-stream",
     )
 
 
 @router.get(
     "/conversation/{conversation_id}/history",
     summary="Retrieve conversation history.",
-    tags=[TAG]
+    tags=[TAG],
 )
 async def handle_get_conversation_history(
-        conversation_id: str = Path(..., description="The ID of the conversation."),
+    conversation_id: str = Path(..., description="The ID of the conversation."),
 ):
     request = ChatHistoryRequest(
         chat_id=conversation_id,
