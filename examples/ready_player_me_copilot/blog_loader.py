@@ -2,17 +2,16 @@ from typing import List
 
 import requests
 from bs4 import BeautifulSoup
-
 from langchain.schema import Document
 
-from opencopilot.utils.loaders import url_loader_use_case
+from examples.ready_player_me_copilot import url_loader
 
 
 def execute(blog_urls: List[str]) -> List[Document]:
     documents: List[Document] = []
     for blog_url in blog_urls:
         urls = _get_urls(blog_url)
-        documents.extend(url_loader_use_case.execute(urls))
+        documents.extend(url_loader.execute(urls))
     return documents
 
 

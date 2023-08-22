@@ -1,1 +1,2 @@
 opencopilot-ai==0.3.0
+libmagic==1.0
