@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://docs.opencopilot.dev"><img src="https://mintlify.s3-us-west-1.amazonaws.com/opencopilot/logo/light.svg" alt="OpenCopilot"></a>
+  <a href="https://docs.opencopilot.dev"><img src="https://github.com/opencopilotdev/opencopilot/assets/5147210/ff01df76-45f5-4c91-a4ef-cd9fcd73a971" alt="OpenCopilot"></a>
 </p>
 <p align="center">
     <em>OpenCopilot is a Python framework for building custom and private copilots.</em>
@@ -80,16 +80,16 @@ OpenCopilot by default helps you setup a Python API service for your copilot. Th
 
 As a pre-requisite, you need to have [`pnpm`](https://pnpm.io/) installed.
 
-First, clone the repo you're in: [opencopilotdev/opencopilot](https://github.com/opencopilotdev/opencopilot):
+First, clone the [opencopilotdev/opencopilot-frontend](https://github.com/opencopilotdev/opencopilot-frontend) repository:
 
 ```bash
-git clone git@github.com:opencopilotdev/opencopilot.git
+git clone https://github.com/opencopilotdev/opencopilot-frontend
 ```
 
 Then, setup the environment variables:
 
 ```bash
-cd opencopilot/frontend
+cd opencopilot-frontend
 cp .env.example .env
 ```
 
