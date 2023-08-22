@@ -10,7 +10,7 @@ from langchain.schema import Document
 from opencopilot.logger import api_logger
 from opencopilot.domain.chat.entities import ChatContextInput
 
-DEFAULT_CONTEXTS_DIR = "conversation_contexts"
+DEFAULT_CONTEXTS_DIR = "logs/conversation_contexts"
 
 logger = api_logger.get()
 

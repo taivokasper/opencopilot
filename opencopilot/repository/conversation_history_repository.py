@@ -8,7 +8,7 @@ from opencopilot import settings
 from opencopilot.logger import api_logger
 from opencopilot.domain.chat.entities import ChatFeedbackInput
 
-DEFAULT_CONVERSATIONS_DIR = "conversations"
+DEFAULT_CONVERSATIONS_DIR = "logs/conversations"
 
 logger = api_logger.get()
 

@@ -11,7 +11,7 @@ class UserFeedbackAnalytics:
     easy_to_understand: List[int]
 
 
-def execute(conversations_dir="conversations") -> UserFeedbackAnalytics:
+def execute(conversations_dir="logs/conversations") -> UserFeedbackAnalytics:
     feedbacks = _collect_feedbacks(conversations_dir)
     print("\nRaw feedbacks:")
     print(feedbacks)

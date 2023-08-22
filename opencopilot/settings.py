@@ -42,7 +42,7 @@ class Settings:
     HELICONE_API_KEY: str
     HELICONE_RATE_LIMIT_POLICY: str
 
-    CONVERSATIONS_DIR: str = "conversations"
+    CONVERSATIONS_DIR: str = "logs/conversations"
     # Configure based on model?
     PROMPT_HISTORY_INCLUDED_COUNT: int = 4
     MAX_CONTEXT_DOCUMENTS_COUNT: int = 4

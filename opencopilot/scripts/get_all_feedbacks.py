@@ -15,7 +15,7 @@ class UserFeedbackResult:
     free_form_feedback: str
 
 
-def execute(conversations_dir="conversations") -> List[UserFeedbackResult]:
+def execute(conversations_dir="logs/conversations") -> List[UserFeedbackResult]:
     result = []
     pathlist = Path(conversations_dir).rglob("*.json")
     for path in pathlist:
