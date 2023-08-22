@@ -55,19 +55,6 @@ OpenCopilot solves this problem so building your own Copilot becomes intuitive, 
   
 See more [use cases in docs](https://docs.opencopilot.dev/welcome/overview#use-cases).
 
-## 👾 Key features
-
-Here's what OpenCopilot comes with out of the box:
-
-* Intuitive way to [define copilots in Python code](https://docs.opencopilot.dev//welcome/getting-started)
-* Support for adding [knowledge bases](https://docs.opencopilot.dev//improve/knowledge-base) to your copilot ("chat with your data" style)
-    * Use custom data sources, or any LangChain-compatible document loader
-* [REST API](https://docs.opencopilot.dev//integrate/rest-api), including streaming support
-* [Monitoring](https://docs.opencopilot.dev//integrate/monitoring) for your LLM & copilot usage
-* [Front-end](https://github.com/opencopilotdev/opencopilot-frontend) template
-* Use any LLM (`gpt-3.5-turbo-16k` by default)
-* Coming soon: dynamic context, evaluation, and more
-
 ## Quickstart
 
 As prerequisites, you need to have **Python 3.8+** and **pip** installed.
@@ -99,9 +86,7 @@ copilot()
 Make sure your custom prompt file exists: in `my_prompt.txt`, add the following:
 
 ```txt
-Your are a Parrot Copilot.
-Your purpose is to repeat what the user says, but in a different wording.
-You can use the context and history to do so.
+Your are a Parrot Copilot. Your purpose is to repeat what the user says, but in a different wording.
 
 =========
 {context}
@@ -120,9 +105,9 @@ The template variables will be filled at runtime; see our docs on [Prompting](ht
 python copilot.py
 ```
 
-That's it! The copilot is now running as an API service, at `localhost:3000` by default!
+That's it! Your minimal copilot is now running as an API service, at `localhost:3000` by default 🎉
 
-🎉 You can chat with it by calling the API:
+You can chat with it by calling the API:
 
 ```bash
 curl -X 'POST' \
@@ -136,15 +121,16 @@ curl -X 'POST' \
 
 See the [interactive Swagger docs](http://localhost:3000/docs#/Chat/handle_conversation_v0_conversation__conversation_id__post) for full API documentation.
 
-What next?
+## 📖 Customizing, improving, testing and deploying your Copilot
 
-* **Start improving the copilot**: [customize your copilot](/improve/customize-your-copilot) by prompting, adding context, etc.
+Please see the full [documentation](https://docs.opencopilot.dev/welcome/introduction) to:
+
+* **Start improving your copilot**: [customize your copilot by prompting](https://docs.opencopilot.dev/improve/customize-your-copilot), adding knowledge base, etc.
 * Read more about the core features and stack choices of OpenCopilot in [Overview](/welcome/overview).
 
+## Optional: front-end
 
-### Optional: front-end
-
-As a pre-requisite, you need to have [`pnpm`](https://pnpm.io/) installed.
+If you'd like to have a front-end for your Copilot, then you can easily deploy it. As a pre-requisite, you need to have [`pnpm`](https://pnpm.io/) installed.
 
 First, clone the [opencopilotdev/opencopilot-frontend](https://github.com/opencopilotdev/opencopilot-frontend) repository:
 
@@ -173,10 +159,10 @@ pnpm run dev
 
 You can now access the front-end at http://localhost:3001.
 
-### Getting help
+## Getting help
 
 If you have any questions about OpenCopilot, feel free to do any of the following:
 
 * Join our [Discord](https://discord.gg/AmdF5d94vE) and ask.
 * Report bugs or feature requests in [GitHub issues](https://github.com/opencopilotdev/opencopilot/issues).
-* Directly email Taivo, Co-founder & CTO of OpenCopilot: `taivo [at] opencopilot.dev`.
+* Directly email Taivo, Co-founder & CTO of OpenCopilot: `taivo@opencopilot.dev`.
