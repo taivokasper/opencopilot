@@ -2,7 +2,7 @@
   <a href="https://docs.opencopilot.dev"><img src="https://github.com/opencopilotdev/opencopilot/assets/5147210/ff01df76-45f5-4c91-a4ef-cd9fcd73a971" alt="OpenCopilot"></a>
 </p>
 <p align="center">
-    <em>OpenCopilot is a Python framework for building custom and private copilots.</em>
+    <em> 🕊️ OpenCopilot: Build and embed open-source AI Copilots into your product with ease</em>
 </p>
 <p align="center">
 
@@ -34,38 +34,30 @@
 
 ## Overview
 
-OpenCopilot is a Python framework for building custom and private copilots.
+Copilots are becoming the new paradigm how to build successful LLM-based applications, as seen by Github , Shopify, Brex, Hubspot, etc Copilots. Yet, building a Copilot that goes beyond a Twitter demo is extremely complex as it's time-consuming, unreliable and feels like a massive undertaking. Moreover, existing solutions such as Microsoft Copilot Stack are closed-source. Building an LLM-app today feels like:
 
-Building a Copilot that goes beyond a Twitter demo can be complex, time-consuming and unreliable. OpenCopilot makes building your own Copilot intuitive, fast and reliable: with it, you should be able to **build your copilot in a single day**.
+![Author: Soham Chatterjee](https://github.com/opencopilotdev/opencopilot/assets/3767980/f98def43-38b6-40ed-956b-8b5498c08318)
 
-### Key features
+OpenCopilot solves this problem so building your own Copilot becomes intuitive, fast and reliable - all so **you can build your copilot in a single day**. For example, you can build Copilots such as:
 
-Here's what OpenCopilot comes with out of the box:
+**🛠️ Developer tooling Copilot**
 
-* Intuitive way to [define copilots in Python code](https://docs.opencopilot.dev//welcome/getting-started)
-* Support for adding [knowledge bases](https://docs.opencopilot.dev//improve/knowledge-base) to your copilot ("chat with your data" style)
-    * Use custom data sources, or any LangChain-compatible document loader
-* [REST API](https://docs.opencopilot.dev//integrate/rest-api), including streaming support
-* [Monitoring](https://docs.opencopilot.dev//integrate/monitoring) for your LLM & copilot usage
-* [Front-end](https://github.com/opencopilotdev/opencopilot-frontend) template
-* Use any LLM (`gpt-3.5-turbo-16k` by default)
-* Coming soon: dynamic context, evaluation, and more
+* Example: [Stripe Copilot](https://stripe.com/newsroom/news/stripe-and-openai)
+* End-to-end example: [Ready Player Me Copilot](https://github.com/opencopilotdev/opencopilot/tree/improve_readme/examples/ready_player_me_copilot)
 
+**💾 SaaS Copilot**
 
-### Use cases
+* Example: [HubSpot ChatSpot](https://chatspot.ai/)
 
-What can you do with copilots? Here are some examples:
+**💳 E-commerce Copilot**
 
-1.  **Developer tooling Copilot**: [Ready Player Me](https://readyplayerdev.me/), the leading avatar tooling platform, built a CTO Copilot that helps their users integrate avatar SDK to games. In addition to providing code snippets, the copilot helps developers understand the product, integration errors, licensing concerns, third-party integrations, and much more. Click [here](https://rpm.opencopilot.dev/) to see copilot in action. Impact for Ready Player Me: **increased developer retention and happiness.**
-2.  **SaaS Copilot**: [ChatSpot](https://chatspot.ai/), a Copilot by HubSpot enables their users to close deals faster, streamline RevOps and enable sales people to focus only on what matters by automating the tedious tasks. Most SaaS products are either overly complex and users don't get enough value of it. SaaS Copilots enable a human-like UX which drive their adoption.
-3.  **E-commerce Copilot**: [Shopify](https://www.shopify.com/magic) Copilot is designed for store owners to grow revenue and simplify commerce. Essentially, a Copilot that enables to become a better entrepreneur on the Internet.
-4.  **Company internal Copilot**: Companies spend enormous amount of money and time on building internal tools. Copilots can reduce that as it consolidates many SaaS products into one and can drive efficiency and cost savings across the company. For example, many startups pay hefty legal bills to their lawyers. At OpenCopilot we built an internal Legal Copilot which has reduced our legal spend by 50%. We've seen impactful Copilots built in the areas of HR, finance, operations, etc.
-5.  **Individual/Creator Copilot**: ChatGPT is extremely powerful but held back because it's too generic and not personal enough. All of the founders at OpenCopilot have built a Founder Copilot which is personal and enables us with strategic decision making, executing at a high clip, etc. Also, creators can create their own Copilots which helps scale their time with their community.
-
+* Example: [Shopify Copilot](https://www.shopify.com/magic)
+  
+See more [use cases in docs](https://docs.opencopilot.dev/welcome/overview#use-cases).
 
 ## Quickstart
 
-As a prerequisite, you need to have **Python 3.8+** and **pip** installed.
+As prerequisites, you need to have **Python 3.8+** and **pip** installed.
 
 ### 1. Install the Python package
 
@@ -94,9 +86,7 @@ copilot()
 Make sure your custom prompt file exists: in `my_prompt.txt`, add the following:
 
 ```txt
-Your are a Parrot Copilot.
-Your purpose is to repeat what the user says, but in a different wording.
-You can use the context and history to do so.
+Your are a Parrot Copilot. Your purpose is to repeat what the user says, but in a different wording.
 
 =========
 {context}
@@ -115,9 +105,9 @@ The template variables will be filled at runtime; see our docs on [Prompting](ht
 python copilot.py
 ```
 
-That's it! The copilot is now running as an API service, at `localhost:3000` by default!
+That's it! Your minimal copilot is now running as an API service, at `localhost:3000` by default 🎉
 
-🎉 You can chat with it by calling the API:
+You can chat with it by calling the API:
 
 ```bash
 curl -X 'POST' \
@@ -131,15 +121,16 @@ curl -X 'POST' \
 
 See the [interactive Swagger docs](http://localhost:3000/docs#/Chat/handle_conversation_v0_conversation__conversation_id__post) for full API documentation.
 
-What next?
+## 📖 Customizing, improving, testing and deploying your Copilot
 
-* **Start improving the copilot**: [customize your copilot](/improve/customize-your-copilot) by prompting, adding context, etc.
+Please see the full [documentation](https://docs.opencopilot.dev/welcome/introduction) to:
+
+* **Start improving your copilot**: [customize your copilot by prompting](https://docs.opencopilot.dev/improve/customize-your-copilot), adding knowledge base, etc.
 * Read more about the core features and stack choices of OpenCopilot in [Overview](/welcome/overview).
 
+## Optional: front-end
 
-### Optional: front-end
-
-As a pre-requisite, you need to have [`pnpm`](https://pnpm.io/) installed.
+If you'd like to have a front-end for your Copilot, then you can easily deploy it. As a pre-requisite, you need to have [`pnpm`](https://pnpm.io/) installed.
 
 First, clone the [opencopilotdev/opencopilot-frontend](https://github.com/opencopilotdev/opencopilot-frontend) repository:
 
@@ -168,10 +159,10 @@ pnpm run dev
 
 You can now access the front-end at http://localhost:3001.
 
-### Getting help
+## Getting help
 
 If you have any questions about OpenCopilot, feel free to do any of the following:
 
 * Join our [Discord](https://discord.gg/AmdF5d94vE) and ask.
 * Report bugs or feature requests in [GitHub issues](https://github.com/opencopilotdev/opencopilot/issues).
-* Directly email Taivo, Co-founder & CTO of OpenCopilot: `taivo [at] opencopilot.dev`.
+* Directly email Taivo, Co-founder & CTO of OpenCopilot: `taivo@opencopilot.dev`.
