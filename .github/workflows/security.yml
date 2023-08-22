@@ -1,6 +1,6 @@
 name: Security Check
 
-on: [pull_request]
+on: [ push ]
 
 jobs:
   security-check:
