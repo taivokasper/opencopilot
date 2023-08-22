@@ -35,15 +35,33 @@
 ## Overview
 
 OpenCopilot is a Python framework for building custom and private copilots.
-It's designed to be **fast to get started, extensible, and easy to use**.
-Using OpenCopilot, you can see your copilot come live in 5 minutes, and
-making a fully functional copilot should take you **less than a day**.
+
+Building a Copilot that goes beyond a Twitter demo can be complex, time-consuming and unreliable. OpenCopilot makes building your own Copilot intuitive, fast and reliable: with it, you should be able to **build your copilot in a single day**.
+
+### Key features
+
+Here's what OpenCopilot comes with out of the box:
+
+* Intuitive way to [define copilots in Python code](https://docs.opencopilot.dev//welcome/getting-started)
+* Support for adding [knowledge bases](https://docs.opencopilot.dev//improve/knowledge-base) to your copilot ("chat with your data" style)
+    * Use custom data sources, or any LangChain-compatible document loader
+* [REST API](https://docs.opencopilot.dev//integrate/rest-api), including streaming support
+* [Monitoring](https://docs.opencopilot.dev//integrate/monitoring) for your LLM & copilot usage
+* [Front-end](https://github.com/opencopilotdev/opencopilot-frontend) template
+* Use any LLM (`gpt-3.5-turbo-16k` by default)
+* Coming soon: dynamic context, evaluation, and more
 
 
-Example Copilots built with OpenCopilot
+### Use cases
 
-- [Ready Player Me Copilot](https://rpm.opencopilot.dev/) which helps developers integrate RPM avatar SDK into their games.
-- [Unity Copilot](https://unity.opencopilot.dev/) which helps Unity developers debug, write code and speed up their development flow.
+What can you do with copilots? Here are some examples:
+
+1.  **Developer tooling Copilot**: [Ready Player Me](https://readyplayerdev.me/), the leading avatar tooling platform, built a CTO Copilot that helps their users integrate avatar SDK to games. In addition to providing code snippets, the copilot helps developers understand the product, integration errors, licensing concerns, third-party integrations, and much more. Click [here](https://rpm.opencopilot.dev/) to see copilot in action. Impact for Ready Player Me: **increased developer retention and happiness.**
+2.  **SaaS Copilot**: [ChatSpot](https://chatspot.ai/), a Copilot by HubSpot enables their users to close deals faster, streamline RevOps and enable sales people to focus only on what matters by automating the tedious tasks. Most SaaS products are either overly complex and users don't get enough value of it. SaaS Copilots enable a human-like UX which drive their adoption.
+3.  **E-commerce Copilot**: [Shopify](https://www.shopify.com/magic) Copilot is designed for store owners to grow revenue and simplify commerce. Essentially, a Copilot that enables to become a better entrepreneur on the Internet.
+4.  **Company internal Copilot**: Companies spend enormous amount of money and time on building internal tools. Copilots can reduce that as it consolidates many SaaS products into one and can drive efficiency and cost savings across the company. For example, many startups pay hefty legal bills to their lawyers. At OpenCopilot we built an internal Legal Copilot which has reduced our legal spend by 50%. We've seen impactful Copilots built in the areas of HR, finance, operations, etc.
+5.  **Individual/Creator Copilot**: ChatGPT is extremely powerful but held back because it's too generic and not personal enough. All of the founders at OpenCopilot have built a Founder Copilot which is personal and enables us with strategic decision making, executing at a high clip, etc. Also, creators can create their own Copilots which helps scale their time with their community.
+
 
 ## Quickstart
 
@@ -95,12 +113,29 @@ The template variables will be filled at runtime; see our docs on [Prompting](ht
 python copilot.py
 ```
 
-That's it! The copilot is now running as an API service! 🎉 You can now chat with it: TODO how? (CLI, frontend, etc)
+That's it! The copilot is now running as an API service, at `localhost:3000` by default!
 
-OpenCopilot by default helps you setup a Python API service for your copilot. That is intentional: we expect most people to integrate the functionality into their own application. However, if you want to setup a front-end for your copilot, we provide a working NextJS application out of the box. Follow the steps below to do so.
+🎉 You can chat with it by calling the API:
+
+```bash
+curl -X 'POST' \
+  'http://127.0.0.1:3000/v0/conversation/85ceff11-8072-47c8-a09a-ef846b024c04' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "inputs": "Hi! Who are you?"
+}'
+```
+
+See the [interactive Swagger docs](http://localhost:3000/docs#/Chat/handle_conversation_v0_conversation__conversation_id__post) for full API documentation.
+
+What next?
+
+* **Start improving the copilot**: [customize your copilot](/improve/customize-your-copilot) by prompting, adding context, etc.
+* Read more about the core features and stack choices of OpenCopilot in [Overview](/welcome/overview).
 
 
-### Chat in front-end
+### Optional: front-end
 
 As a pre-requisite, you need to have [`pnpm`](https://pnpm.io/) installed.
 
@@ -130,11 +165,6 @@ pnpm run dev
 ```
 
 You can now access the front-end at http://localhost:3001.
-
-### What next?
-
-* Make the copilot yours: [customize your copilot](https://docs.opencopilot.dev/improve/customize-your-copilot) by prompting, adding context, etc.
-* Read more about the core features and stack choices of OpenCopilot in [Overview](https://docs.opencopilot.dev/welcome/overview).
 
 ### Getting help
 
