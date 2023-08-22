@@ -8,5 +8,5 @@ playwright install
 ### Running
 
 ```shell
-python app.py
+python copilot.py
 ```
