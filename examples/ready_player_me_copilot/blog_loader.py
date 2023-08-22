@@ -4,7 +4,7 @@ import requests
 from bs4 import BeautifulSoup
 from langchain.schema import Document
 
-from examples.ready_player_me_copilot import url_loader
+import url_loader
 
 
 def execute(blog_urls: List[str]) -> List[Document]:
