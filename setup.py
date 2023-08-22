@@ -49,5 +49,6 @@ setup(
         'aiohttp',
         'xxhash',
         'omegaconf',
+        'openpyxl',
     ],
 )
