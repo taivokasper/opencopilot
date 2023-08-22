@@ -2,7 +2,7 @@ from typing import Optional
 
 from starlette.requests import Request
 
-from opencopilot.service.middleware.entitites import RequestStateKey
+from opencopilot.service.middleware.entities import RequestStateKey
 
 
 def set_state(request: Request, state_key: RequestStateKey, value: any):
