@@ -37,7 +37,7 @@ def execute(conversations_dir="conversations") -> UserFeedbackAnalytics:
     return UserFeedbackAnalytics(
         correctness=correctness,
         helpfulness=helpfulness,
-        easy_to_understand=easy_to_understand
+        easy_to_understand=easy_to_understand,
     )
 
 
@@ -50,7 +50,7 @@ def _print_metric(label: str, metric: List[int]) -> None:
 
 
 def _collect_feedbacks(conversations_dir: str):
-    pathlist = Path(conversations_dir).rglob('*.json')
+    pathlist = Path(conversations_dir).rglob("*.json")
     result = []
     for path in pathlist:
         feedbacks = _get_feedbacks_from_file(str(path))
@@ -75,5 +75,5 @@ def _read_file(file_path: str) -> str:
         return file.read()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     execute()

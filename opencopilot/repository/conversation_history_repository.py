@@ -14,12 +14,11 @@ logger = api_logger.get()
 
 
 class ConversationHistoryRepositoryLocal:
-
     def __init__(
-            self,
-            conversations_dir: str = DEFAULT_CONVERSATIONS_DIR,
-            question_key: str = "",
-            response_key: str = "",
+        self,
+        conversations_dir: str = DEFAULT_CONVERSATIONS_DIR,
+        question_key: str = "",
+        response_key: str = "",
     ):
         self.conversations_dir = conversations_dir
         self.question_key = question_key or settings.get().PROMPT_QUESTION_KEY
@@ -31,7 +30,7 @@ class ConversationHistoryRepositoryLocal:
                 history = json.load(f)
             if not count or len(history) <= count:
                 return self._to_string(history)
-            return self._to_string(history[count * -1:])
+            return self._to_string(history[count * -1 :])
         except:
             logger.debug(f"Cannot load conversation history, id: {str(chat_id)}")
         return ""
@@ -53,28 +52,27 @@ class ConversationHistoryRepositoryLocal:
         return formatted
 
     def save_history(
-            self,
-            message: str,
-            result: str,
-            prompt_timestamp: float,
-            response_timestamp: float,
-            chat_id: UUID,
-            response_message_id: str,
+        self,
+        message: str,
+        result: str,
+        prompt_timestamp: float,
+        response_timestamp: float,
+        chat_id: UUID,
+        response_message_id: str,
     ) -> None:
         history = self.get_history(chat_id)
-        history.append({
-            "prompt": message,
-            "response": result.strip(),
-            "prompt_timestamp": prompt_timestamp,
-            "response_timestamp": response_timestamp,
-            "response_message_id": response_message_id,
-        })
+        history.append(
+            {
+                "prompt": message,
+                "response": result.strip(),
+                "prompt_timestamp": prompt_timestamp,
+                "response_timestamp": response_timestamp,
+                "response_message_id": response_message_id,
+            }
+        )
         self._write_file(chat_id, history)
 
-    def add_feedback(
-            self,
-            chat_feedback: ChatFeedbackInput
-    ) -> None:
+    def add_feedback(self, chat_feedback: ChatFeedbackInput) -> None:
         history = self.get_history(chat_feedback.conversation_id)
         history[-1]["user_feedback"] = {
             "correctness": chat_feedback.correctness,

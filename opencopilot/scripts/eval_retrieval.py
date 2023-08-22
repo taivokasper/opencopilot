@@ -44,7 +44,7 @@ def parse_uri(s: str):
     return s
 
 
-def dataset_from_file(dataset_path: Path, limit: int=None) -> RetrievalDataset:
+def dataset_from_file(dataset_path: Path, limit: int = None) -> RetrievalDataset:
     with open(dataset_path) as f:
         examples_dict = json.load(f)
         if limit:
@@ -67,7 +67,6 @@ def evaluate_retriever(
     search_function: Callable, dataset: RetrievalDataset, **search_kwargs
 ) -> RetrievalSummaryEvaluation:
     """Evaluate a retriever function on a dataset."""
-    
 
     predictions = []
     for example in tqdm(dataset.examples):
@@ -85,7 +84,7 @@ def _draw_curve(dataset_path: str, limit=None):
         search_type = f"similarity_search"
         metrics = evaluate_retriever(
             document_retriever.find,
-            dataset = dataset_from_file(dataset_path, limit=limit),
+            dataset=dataset_from_file(dataset_path, limit=limit),
             search_type=search_type,
             k=k + 1,
         )
@@ -129,7 +128,9 @@ def _log_wandb(summary_evaluation: RetrievalSummaryEvaluation):
     wandb.finish()
 
 
-def main(dataset_path: str, draw_curve: bool, output_path: str = None, limit: int = None):
+def main(
+    dataset_path: str, draw_curve: bool, output_path: str = None, limit: int = None
+):
     # TODO: document_store.init_document_store()
     if draw_curve:
         _draw_curve(dataset_path, limit=limit)
@@ -137,7 +138,7 @@ def main(dataset_path: str, draw_curve: bool, output_path: str = None, limit: in
         document_retriever = document_store.get_document_store()
         metrics = evaluate_retriever(
             document_retriever.find,
-            dataset = dataset_from_file(dataset_path, limit=limit),
+            dataset=dataset_from_file(dataset_path, limit=limit),
             search_type="similarity_search",
             k=4,
         )
@@ -151,13 +152,21 @@ def main(dataset_path: str, draw_curve: bool, output_path: str = None, limit: in
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "--dataset_path", type=str, default=f"../copilots/{settings.get().COPILOT_NAME}/eval_data/retrieval_human.json"
+        "--dataset_path",
+        type=str,
+        default=f"../copilots/{settings.get().COPILOT_NAME}/eval_data/retrieval_human.json",
     )
     parser.add_argument(
-        "-n", "--num_examples", type=int, default=None, help="Limit how many examples are evaluated from dataset. Default: all examples used."
+        "-n",
+        "--num_examples",
+        type=int,
+        default=None,
+        help="Limit how many examples are evaluated from dataset. Default: all examples used.",
     )
     parser.add_argument(
-        "--draw_curve", action="store_true", help="Draw precision/recall curve. Disables --wandb and --output."
+        "--draw_curve",
+        action="store_true",
+        help="Draw precision/recall curve. Disables --wandb and --output.",
     )
     parser.add_argument("--wandb", action="store_true", help="Store results in WANDB")
     parser.add_argument(
@@ -169,7 +178,12 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
-    metrics = main(args.dataset_path, args.draw_curve, output_path=args.output, limit=args.num_examples)
+    metrics = main(
+        args.dataset_path,
+        args.draw_curve,
+        output_path=args.output,
+        limit=args.num_examples,
+    )
 
     if args.wandb and not args.draw_curve:
         print("Logging to WANDB:")

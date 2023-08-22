@@ -21,15 +21,14 @@ def execute(text: str, chat_id: UUID) -> None:
 
 def _find_urls(text: str) -> List[str]:
     urls = re.findall(URL_REGEX, text)
-    return [''.join(x for x in url if x in string.printable) for url in urls]
+    return ["".join(x for x in url if x in string.printable) for url in urls]
 
 
 def _validate_url(url: str, chat_id: UUID) -> None:
     try:
         response = requests.get(url)
         if response.status_code in [404, 410]:
-            logger.warning(
-                f"Error querying url {url}, conversation_id: {str(chat_id)}")
+            logger.warning(f"Error querying url {url}, conversation_id: {str(chat_id)}")
             slack_messenger.post_error(
                 f"Error querying url {url}, conversation_id: {str(chat_id)}",
                 f"status_code {response.status_code}",

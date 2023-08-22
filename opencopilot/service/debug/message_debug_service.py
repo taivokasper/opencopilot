@@ -2,18 +2,22 @@ from typing import Optional
 
 from opencopilot.domain.debug import message_debug_use_case
 from opencopilot.domain.debug.entities import TextWithTokens
-from opencopilot.repository.conversation_history_repository import ConversationHistoryRepositoryLocal
-from opencopilot.repository.conversation_logs_repository import ConversationLogsRepositoryLocal
+from opencopilot.repository.conversation_history_repository import (
+    ConversationHistoryRepositoryLocal,
+)
+from opencopilot.repository.conversation_logs_repository import (
+    ConversationLogsRepositoryLocal,
+)
 from opencopilot.service import utils
 from opencopilot.service.debug.entities import GetMessageDebugResponse
 from opencopilot.service.debug.entities import ValueWithTokens
 
 
 def execute(
-        conversation_id: str,
-        message_id: str,
-        history_repository: ConversationHistoryRepositoryLocal,
-        logs_repository: ConversationLogsRepositoryLocal,
+    conversation_id: str,
+    message_id: str,
+    history_repository: ConversationHistoryRepositoryLocal,
+    logs_repository: ConversationLogsRepositoryLocal,
 ) -> GetMessageDebugResponse:
     domain_response = message_debug_use_case.execute(
         utils.get_uuid(conversation_id, "conversation_id"),

@@ -7,17 +7,12 @@ from typing import Optional
 import requests
 from dotenv import load_dotenv
 
-headers = {
-    "accept": "application/json",
-    "Content-Type": "application/json"
-}
+headers = {"accept": "application/json", "Content-Type": "application/json"}
 DEFAULT_MESSAGE = "Hi"
 
 
 def _get_stream(url: str, message: str = DEFAULT_MESSAGE, jwt_token: str = None):
-    data = {
-        "inputs": message
-    }
+    data = {"inputs": message}
     if jwt_token:
         headers["Authorization"] = "Bearer " + jwt_token
     s = requests.Session()
@@ -40,25 +35,23 @@ def _process_text(line):
 
 
 def conversation(
-        base_url: str,
-        conversation_id: uuid.UUID,
-        message: str = DEFAULT_MESSAGE,
+    base_url: str,
+    conversation_id: uuid.UUID,
+    message: str = DEFAULT_MESSAGE,
 ):
     jwt_token = _get_jwt_token(base_url)
     if jwt_token:
         headers["Authorization"] = "Bearer " + jwt_token
     url = f"{base_url}/v0/conversation/{conversation_id}"
-    data = {
-        "inputs": message
-    }
+    data = {"inputs": message}
     return requests.post(url, json=data, headers=headers)
 
 
 def conversation_stream(
-        base_url: str,
-        conversation_id: uuid.UUID,
-        message: str = DEFAULT_MESSAGE,
-        stream: bool = False
+    base_url: str,
+    conversation_id: uuid.UUID,
+    message: str = DEFAULT_MESSAGE,
+    stream: bool = False,
 ):
     jwt_token = _get_jwt_token(base_url)
     url = f"{base_url}/v0/conversation_stream/{conversation_id}"
@@ -80,7 +73,7 @@ def _get_jwt_token(base_url: str) -> Optional[str]:
     data = {
         "client_id": jwt_client_id,
         "client_secret": jwt_client_secret,
-        "user_id": "test@local.host"
+        "user_id": "test@local.host",
     }
     try:
         token_result = requests.post(url, headers=headers, json=data)
@@ -90,10 +83,10 @@ def _get_jwt_token(base_url: str) -> Optional[str]:
         return None
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     _result = conversation_stream(
         # TODO: fix base_url
         base_url=f"http://0.0.0.0:3000",
-        conversation_id=uuid.uuid4()
+        conversation_id=uuid.uuid4(),
     )
     print("result:", _result)

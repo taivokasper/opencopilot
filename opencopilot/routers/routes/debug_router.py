@@ -3,8 +3,12 @@ from fastapi import Body
 from fastapi import Path
 
 from opencopilot.logger import api_logger
-from opencopilot.repository.conversation_history_repository import ConversationHistoryRepositoryLocal
-from opencopilot.repository.conversation_logs_repository import ConversationLogsRepositoryLocal
+from opencopilot.repository.conversation_history_repository import (
+    ConversationHistoryRepositoryLocal,
+)
+from opencopilot.repository.conversation_logs_repository import (
+    ConversationLogsRepositoryLocal,
+)
 from opencopilot.service.debug import message_debug_service
 from opencopilot.service.debug.entities import EvaluationInput
 from opencopilot.service.debug.entities import EvaluationResponse
@@ -23,15 +27,11 @@ logger = api_logger.get()
     "/debug/{conversation_id}/{message_id}",
     tags=[TAG],
     summary="List custom copilots.",
-    response_model=GetMessageDebugResponse
+    response_model=GetMessageDebugResponse,
 )
 async def get_copilots(
-        conversation_id: str = Path(
-            ...,
-            description="The ID of the conversation."),
-        message_id: str = Path(
-            ...,
-            description="The ID of the response message."),
+    conversation_id: str = Path(..., description="The ID of the conversation."),
+    message_id: str = Path(..., description="The ID of the response message."),
 ):
     history_repository = ConversationHistoryRepositoryLocal()
     logs_repository = ConversationLogsRepositoryLocal()
@@ -51,8 +51,6 @@ async def get_copilots(
     response_model=EvaluationResponse,
 )
 async def evaluate(
-        payload: EvaluationInput = Body(
-            ...,
-            description="Evaluated query.")
+    payload: EvaluationInput = Body(..., description="Evaluated query.")
 ):
     return await evaluation_service.execute(payload)

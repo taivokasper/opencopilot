@@ -7,20 +7,20 @@ import argparse
 from typing import List, Dict
 
 API_BASE_URL = os.getenv("API_BASE_URL", "https://api.unity.sidekik.ai/")
-UNITY_LOG_FILE_PATH = os.path.expanduser('~/Library/Logs/Unity/Editor.log')
+UNITY_LOG_FILE_PATH = os.path.expanduser("~/Library/Logs/Unity/Editor.log")
 LOG_LINES_TO_INCLUDE = 20
 
 
 def _send_info(conversation_id: str, info: Dict) -> bool:
     try:
-        data = {
-            "context": json.dumps(info) 
-        }
+        data = {"context": json.dumps(info)}
         data_json = json.dumps(data)
-        data_bytes = data_json.encode('utf-8')  # convert string to bytes
-        req = urllib.request.Request(f"{API_BASE_URL}v0/conversation/{conversation_id}/context")
-        req.add_header('Content-Type', 'application/json; charset=utf-8')
-        req.add_header('Content-Length', len(data_bytes))
+        data_bytes = data_json.encode("utf-8")  # convert string to bytes
+        req = urllib.request.Request(
+            f"{API_BASE_URL}v0/conversation/{conversation_id}/context"
+        )
+        req.add_header("Content-Type", "application/json; charset=utf-8")
+        req.add_header("Content-Length", len(data_bytes))
         response = urllib.request.urlopen(req, data_bytes)
         response_json = json.loads(response.read())
         return response_json["response"] == "OK"
@@ -59,23 +59,23 @@ def _get_directory_tree(project_path):
 
 
 def _extract_info(line):
-    pattern = r'\w+:\s+(?:Info\s+)?(?P<Info>.*)'
+    pattern = r"\w+:\s+(?:Info\s+)?(?P<Info>.*)"
     info = re.search(pattern, line)
-    return info.group('Info') if info else None
+    return info.group("Info") if info else None
 
 
 def _parse_os_unity_info(data: List[str]) -> Dict:
-    '''
-        Unity Editor version:    2021.3.28f1 (232e59c3f087)
-        Branch:                  2021.3/release
-        Build type:              Release
-        Batch mode:              NO
-        macOS version:           Version 13.2 (Build 22D49)
-        Darwin version:          22.3.0
-        Architecture:            arm64
-        Running under Rosetta:   NO
-        Available memory:        16384 MB
-    '''
+    """
+    Unity Editor version:    2021.3.28f1 (232e59c3f087)
+    Branch:                  2021.3/release
+    Build type:              Release
+    Batch mode:              NO
+    macOS version:           Version 13.2 (Build 22D49)
+    Darwin version:          22.3.0
+    Architecture:            arm64
+    Running under Rosetta:   NO
+    Available memory:        16384 MB
+    """
 
     return {
         "unity_version": _extract_info(data[0]),
@@ -83,21 +83,21 @@ def _parse_os_unity_info(data: List[str]) -> Dict:
         "darwin version": _extract_info(data[5]),
         "architecture": _extract_info(data[6]),
         "rosetta": _extract_info(data[7]) == "YES",
-        "available_memory_mb": int(_extract_info(data[8]).split()[0]) 
+        "available_memory_mb": int(_extract_info(data[8]).split()[0]),
     }
 
 
 def _process_log_file() -> Dict:
     try:
-        with open(UNITY_LOG_FILE_PATH, 'r') as file:
+        with open(UNITY_LOG_FILE_PATH, "r") as file:
             lines = file.readlines()
             # extract OS and Unity information
             info = _parse_os_unity_info(lines[:9])
             # scan the log to find project information
             project_path = None
             for i, line in enumerate(lines):
-                if '-projectpath' in line or "-createproject" in line:
-                    project_path = re.findall(r'(/[\w\W]*)', lines[i+1])
+                if "-projectpath" in line or "-createproject" in line:
+                    project_path = re.findall(r"(/[\w\W]*)", lines[i + 1])
                     break
             if project_path:
                 project_path = project_path[0].strip()
@@ -135,7 +135,9 @@ def _monitor_unity_log_file() -> Dict:
                 last_package_mt = current_package_mt
                 info = _process_log_file()
                 if "project_path" in info:
-                    packages_file = f"{info['project_path']}/Packages/packages-lock.json"
+                    packages_file = (
+                        f"{info['project_path']}/Packages/packages-lock.json"
+                    )
                 yield info
         except FileNotFoundError:
             print(f"{UNITY_LOG_FILE_PATH} does not exist.")
@@ -158,9 +160,6 @@ def main(conversation_id: str):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "conversation_id",
-        type=str
-    )
+    parser.add_argument("conversation_id", type=str)
     args = parser.parse_args()
     main(args.conversation_id)

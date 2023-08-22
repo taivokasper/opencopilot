@@ -15,15 +15,13 @@ from opencopilot import settings
 
 
 def execute(
-        data_dir: str,
-        is_loading_deprecated=False,
-        text_splitter=None
+    data_dir: str, is_loading_deprecated=False, text_splitter=None
 ) -> List[Document]:
     files = []
     if not data_dir or not os.path.isdir(data_dir):
         return []
-    ignore_files = ['.DS_Store']
-    for (dir_path, dir_names, file_names) in os.walk(data_dir):
+    ignore_files = [".DS_Store"]
+    for dir_path, dir_names, file_names in os.walk(data_dir):
         for file_name in file_names:
             if file_name not in ignore_files:
                 files.append(os.path.join(dir_path, file_name))
@@ -37,36 +35,48 @@ def execute(
     documents = []
     for file_path in files:
         new_documents = []
-        if (file_size := _get_file_size(file_path)) > settings.get().MAX_DOCUMENT_SIZE_MB:
+        if (
+            file_size := _get_file_size(file_path)
+        ) > settings.get().MAX_DOCUMENT_SIZE_MB:
             print(
-                f"Document {file_path} too big ({file_size} > {settings.get().MAX_DOCUMENT_SIZE_MB}), skipping.")
+                f"Document {file_path} too big ({file_size} > {settings.get().MAX_DOCUMENT_SIZE_MB}), skipping."
+            )
             continue
-        if file_path.endswith('.csv'):
-            with open(file_path, newline='') as csvfile:
+        if file_path.endswith(".csv"):
+            with open(file_path, newline="") as csvfile:
                 dialect = csv.Sniffer().sniff(csvfile.read(1024))
 
-            loader = CSVLoader(file_path=file_path, csv_args={
-                'delimiter': dialect.delimiter,
-            })
+            loader = CSVLoader(
+                file_path=file_path,
+                csv_args={
+                    "delimiter": dialect.delimiter,
+                },
+            )
             new_documents = loader.load()
-        elif file_path.endswith('.tsv'):
-            loader = CSVLoader(file_path=file_path, csv_args={
-                'delimiter': '\t',
-            })
+        elif file_path.endswith(".tsv"):
+            loader = CSVLoader(
+                file_path=file_path,
+                csv_args={
+                    "delimiter": "\t",
+                },
+            )
             new_documents = loader.load()
-        elif file_path.endswith('.pdf'):
+        elif file_path.endswith(".pdf"):
             loader = PyPDFLoader(file_path)
             new_documents = loader.load()
-        elif file_path.endswith('.xls') or file_path.endswith('.xlsx'):
+        elif file_path.endswith(".xls") or file_path.endswith(".xlsx"):
             loader = UnstructuredExcelLoader(file_path)
             new_documents = loader.load()
-        elif (file_path.endswith(".json")
-              and file_path.replace(data_dir, "").startswith("serialized_documents_")):
+        elif file_path.endswith(".json") and file_path.replace(data_dir, "").startswith(
+            "serialized_documents_"
+        ):
             with open(file_path, "r") as f:
                 document_dicts = json.load(f)
             for document in document_dicts:
                 metadata = document["metadata"]
-                if metadata["source"] in settings.get().copilot_config.data.get("ignore", []):
+                if metadata["source"] in settings.get().copilot_config.data.get(
+                    "ignore", []
+                ):
                     continue
                 if "deprecated" in metadata["source"]:
                     if not is_loading_deprecated:
@@ -88,9 +98,12 @@ def execute(
             document_chunks = []
             for document in new_documents:
                 for chunk in text_splitter.split_text(document.page_content):
-                    document_chunks.append(Document(page_content=chunk, metadata=document.metadata))
+                    document_chunks.append(
+                        Document(page_content=chunk, metadata=document.metadata)
+                    )
             print(
-                f"Generated {len(document_chunks)} document chunks from {len(new_documents)} documents")
+                f"Generated {len(document_chunks)} document chunks from {len(new_documents)} documents"
+            )
             documents.extend(document_chunks)
         else:
             print(f"Generated {len(new_documents)} documents")

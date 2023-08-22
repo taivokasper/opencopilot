@@ -12,6 +12,7 @@ from opencopilot.domain.chat.entities import LoadingMessage
 
 # TODO If used by two LLM runs in parallel this won't work as expected
 
+
 class CustomAsyncIteratorCallbackHandler(AsyncCallbackHandler):
     """Callback handler that returns an async iterator."""
 
@@ -27,16 +28,13 @@ class CustomAsyncIteratorCallbackHandler(AsyncCallbackHandler):
         self.queue = asyncio.Queue()
         self.done = asyncio.Event()
 
-    async def on_custom_loading_message(
-            self,
-            loading_message: LoadingMessage
-    ) -> None:
+    async def on_custom_loading_message(self, loading_message: LoadingMessage) -> None:
         self.queue.put_nowait(
             json.dumps({"loading_message": loading_message.to_dict()})
         )
 
     async def on_llm_start(
-            self, serialized: Dict[str, Any], prompts: List[str], **kwargs: Any
+        self, serialized: Dict[str, Any], prompts: List[str], **kwargs: Any
     ) -> None:
         # If two calls are made in a row, this resets the state
         self.done.clear()
@@ -49,7 +47,7 @@ class CustomAsyncIteratorCallbackHandler(AsyncCallbackHandler):
         self.done.set()
 
     async def on_llm_error(
-            self, error: Union[Exception, KeyboardInterrupt], **kwargs: Any
+        self, error: Union[Exception, KeyboardInterrupt], **kwargs: Any
     ) -> None:
         self.done.set()
 

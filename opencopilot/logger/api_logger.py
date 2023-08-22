@@ -27,7 +27,7 @@ def get(agent_id: UUID = None):
     apply_default_formatter(console_handler)
 
     if agent_id:
-        logger = logging.LoggerAdapter(logger, {'agent_id': str(agent_id)})
+        logger = logging.LoggerAdapter(logger, {"agent_id": str(agent_id)})
     return logger
 
 

@@ -24,14 +24,14 @@ async def execute(domain_input: EvaluationInput) -> EvaluationOutput:
 
 class AsyncQAEvalChain(QAEvalChain):
     async def aevaluate(
-            self,
-            examples: Sequence[dict],
-            predictions: Sequence[dict],
-            question_key: str = "query",
-            answer_key: str = "answer",
-            prediction_key: str = "result",
-            *,
-            callbacks: Callbacks = None,
+        self,
+        examples: Sequence[dict],
+        predictions: Sequence[dict],
+        question_key: str = "query",
+        answer_key: str = "answer",
+        prediction_key: str = "result",
+        *,
+        callbacks: Callbacks = None,
     ) -> List[dict]:
         """Evaluate question answering examples and predictions."""
         inputs = [
