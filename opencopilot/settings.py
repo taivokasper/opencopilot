@@ -61,7 +61,6 @@ class Settings:
             self.AUTH_TYPE = None
 
         self.COPILOT_DIRECTORY = f"copilots/{self.COPILOT_NAME}"
-        self.copilot_config: Union[DictConfig, ListConfig, None] = None
 
         self.PROMPT_QUESTION_KEY = self._get_prompt_key("question_key") or "User"
         self.PROMPT_ANSWER_KEY = self._get_prompt_key("response_key") or "Copilot"

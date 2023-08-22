@@ -1,9 +1,9 @@
+import os
 from typing import Any
 from typing import List
 from typing import Optional
-
-import os
 from urllib import parse
+
 from bs4 import BeautifulSoup
 from langchain.document_loaders import GitbookLoader
 from langchain.schema import Document
@@ -20,11 +20,11 @@ def execute(urls: List[str]) -> List[Document]:
 class CustomGitbookLoader(GitbookLoader):
 
     def __init__(
-        self,
-        web_page: str,
-        load_all_paths: bool = False,
-        base_url: Optional[str] = None,
-        content_selector: str = "main",
+            self,
+            web_page: str,
+            load_all_paths: bool = False,
+            base_url: Optional[str] = None,
+            content_selector: str = "main",
     ):
         super().__init__(web_page, load_all_paths, base_url, content_selector)
         self.parsed_url = parse.urlparse(web_page)

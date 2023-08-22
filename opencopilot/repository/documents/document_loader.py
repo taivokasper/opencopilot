@@ -4,16 +4,14 @@ import os
 import re
 from typing import List
 
-from opencopilot import settings
 from langchain.document_loaders import CSVLoader
 from langchain.document_loaders import PyPDFLoader
 from langchain.document_loaders import TextLoader
 from langchain.document_loaders import UnstructuredExcelLoader
 from langchain.document_loaders import UnstructuredFileLoader
 from langchain.schema import Document
-from opencopilot.logger import api_logger
 
-logger = api_logger.get()
+from opencopilot import settings
 
 
 def execute(
@@ -32,7 +30,7 @@ def execute(
 
     files_count = len(files)
     if files_count > 0:
-        logger.info(f"[Loading {files_count} file{'s'[:files_count ^ 1]} from {data_dir}.]")
+        print(f"[Loading {files_count} file{'s'[:files_count ^ 1]} from {data_dir}.]")
     else:
         raise Exception(f"[Add files to {data_dir}.]")
 
@@ -40,7 +38,7 @@ def execute(
     for file_path in files:
         new_documents = []
         if (file_size := _get_file_size(file_path)) > settings.get().MAX_DOCUMENT_SIZE_MB:
-            logger.error(
+            print(
                 f"Document {file_path} too big ({file_size} > {settings.get().MAX_DOCUMENT_SIZE_MB}), skipping.")
             continue
         if file_path.endswith('.csv'):
@@ -85,17 +83,17 @@ def execute(
                 loader = UnstructuredFileLoader(file_path)
                 new_documents = loader.load()
             except Exception as e:
-                logger.error(f"Error loading {file_path}", exc_info=True)
+                print(f"Error loading {file_path}")
         if text_splitter:
             document_chunks = []
             for document in new_documents:
                 for chunk in text_splitter.split_text(document.page_content):
                     document_chunks.append(Document(page_content=chunk, metadata=document.metadata))
-            logger.info(
+            print(
                 f"Generated {len(document_chunks)} document chunks from {len(new_documents)} documents")
             documents.extend(document_chunks)
         else:
-            logger.info(f"Generated {len(new_documents)} documents")
+            print(f"Generated {len(new_documents)} documents")
             documents.extend(new_documents)
     return documents
 
