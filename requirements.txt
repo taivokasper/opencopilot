@@ -36,3 +36,4 @@ pytesseract==0.3.10
 aiohttp==3.8.5
 xxhash==3.3.0
 openpyxl==3.1.2
+typer[all]==0.7.0

@@ -50,6 +50,7 @@ setup(
         'xxhash',
         'omegaconf',
         'openpyxl',
+        'typer[all]',
     ],
     entry_points={
         'console_scripts': [
