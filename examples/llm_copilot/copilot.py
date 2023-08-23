@@ -12,6 +12,7 @@ load_dotenv()
 copilot = OpenCopilot(
     prompt_file="prompts/prompt_template.txt",
     copilot_name="llm",
+    host=os.getenv("HOST"),
     auth_type=os.getenv("AUTH_TYPE"),
     weaviate_url=os.getenv("WEAVIATE_URL"),
     helicone_api_key=os.getenv("HELICONE_API_KEY"),
