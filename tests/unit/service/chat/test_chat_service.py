@@ -29,7 +29,7 @@ async def test_success():
     response = await service.execute(
         ChatRequest(
             chat_id=str(CHAT_ID),
-            message="whats up",
+            message="what's up",
         ),
         MagicMock(),
         MagicMock(),
