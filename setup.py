@@ -51,4 +51,9 @@ setup(
         'omegaconf',
         'openpyxl',
     ],
+    entry_points={
+        'console_scripts': [
+            'opencopilot = opencopilot.cli:app',
+        ],
+    },
 )
