@@ -16,8 +16,8 @@ copilot = OpenCopilot(
     auth_type=os.getenv("AUTH_TYPE"),
     weaviate_url=os.getenv("WEAVIATE_URL"),
     helicone_api_key=os.getenv("HELICONE_API_KEY"),
-    jwt_client_id=os.getenv("JWT_CLIENT_ID"),
-    jwt_client_secret=os.getenv("JWT_CLIENT_SECRET"),
+    jwt_client_id=os.getenv("JWT_CLIENT_ID") or "",
+    jwt_client_secret=os.getenv("JWT_CLIENT_SECRET") or "",
     jwt_token_expiration_seconds=int(os.getenv("JWT_TOKEN_EXPIRATION_SECONDS") or "0")
 )
 copilot.add_local_files_dir("data")
@@ -27,7 +27,8 @@ def _chunk_documents(documents: List[Document]) -> List[Document]:
     text_splitter = CharacterTextSplitter.from_tiktoken_encoder(
         chunk_size=2000,
         model_name="gpt-4",
-        separator=" ",
+        separator="[ ,]",
+        is_separator_regex=True,
         disallowed_special=(),
     )
 
@@ -48,6 +49,18 @@ def load_opencopilot_docs() -> List[Document]:
 @copilot.data_loader
 def load_helicone_docs() -> List[Document]:
     loader = SitemapLoader("https://docs.helicone.ai/sitemap.xml")
+    documents = loader.load()
+    return _chunk_documents(documents)
+
+
+@copilot.data_loader
+def load_weaviate_docs() -> List[Document]:
+    loader = SitemapLoader(
+        "https://weaviate.io/sitemap.xml",
+        filter_urls=[
+            "https://weaviate.io/developers/weaviate"
+        ]
+    )
     documents = loader.load()
     return _chunk_documents(documents)
 
