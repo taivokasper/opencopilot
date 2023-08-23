@@ -9,7 +9,10 @@ app = typer.Typer(add_completion=False, no_args_is_help=True)
 
 @app.command(help="Print info")
 def info():
-    print("OpenCopilot CLI. Currently just a convenience layer for chatting with the copilot.")
+    print(
+        "OpenCopilot CLI. Currently just a convenience layer for chatting with the "
+        "copilot."
+    )
 
 
 @app.command(help="Chat with the Copilot. Example: chat 'Hello, who are you?'")
@@ -22,7 +25,8 @@ def chat(message: str):
             base_url="http://0.0.0.0:3000",
             conversation_id=conversation_id,
             message=message,
-            stream=True)
+            stream=True,
+        )
         print()
         message = input("Message: ")
 
