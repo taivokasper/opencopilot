@@ -26,6 +26,7 @@ setup(
     py_modules=['opencopilot'],
     install_requires=[
         'fastapi',
+        'dataclasses-json',
         'python-dotenv',
         'python-json-logger',
         'uvicorn',
