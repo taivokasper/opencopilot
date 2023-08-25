@@ -28,8 +28,6 @@ services:
       - --scheme
       - http
     image: semitechnologies/weaviate:1.19.6
-    ports:
-      - "8080:8080"
     restart: on-failure
     environment:
       CONTEXTIONARY_URL: contextionary:9999
