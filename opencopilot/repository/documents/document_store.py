@@ -85,8 +85,49 @@ class WeaviateDocumentStore(DocumentStore):
 
     def find(self, query: str, **kwargs) -> List[Document]:
         k = kwargs.get("k") or settings.get().MAX_CONTEXT_DOCUMENTS_COUNT
-        documents = self.vector_store.similarity_search(query, k=k)
+        documents = self.vector_store.similarity_search(query, k=k, **kwargs)
         return documents[:k]
+
+    def find_by_source(self, source: str, **kwargs) -> List[Document]:
+        query = (
+            self._get_weaviate_client()
+            .query.get(self.weaviate_index_name, ["text", "source"])
+            .with_additional(["id"])
+            .with_where({"path": ["source"], "operator": "Like", "valueString": source})
+        )
+        result = (
+            query.do().get("data", {}).get("Get", {}).get(self.weaviate_index_name, [])
+        )
+        docs = []
+        for res in result:
+            text = res.pop("text")
+            docs.append(Document(page_content=text, metadata=res))
+        return docs
+
+    def get_all(self) -> List[Document]:
+        client = self._get_weaviate_client()
+        batch_size = 200
+        cursor = None
+        all_results = []
+
+        query = (
+            client.query.get(self.weaviate_index_name, ["text", "source"])
+            .with_additional(["id"])
+            .with_limit(batch_size)
+        )
+
+        while True:
+            results = query.with_after(cursor).do() if cursor else query.do()
+            current_results = results["data"]["Get"].get(self.weaviate_index_name, [])
+            if not current_results:
+                break
+            all_results.extend(current_results)
+            cursor = current_results[-1]["_additional"]["id"]
+
+        docs = [
+            Document(page_content=res.pop("text"), metadata=res) for res in all_results
+        ]
+        return docs
 
 
 class EmptyDocumentStore(DocumentStore):
