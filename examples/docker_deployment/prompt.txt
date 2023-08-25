@@ -1,0 +1,9 @@
+Your are a Copilot.
+
+=========
+{context}
+=========
+
+{history}
+User: {question}
+Copilot answer in Markdown:
