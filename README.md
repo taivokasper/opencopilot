@@ -34,9 +34,11 @@
 
 ## 🕊️ OpenCopilot Overview
 
-Copilots are becoming the new paradigm how to build successful LLM-based applications, as seen by [Github](https://github.com/features/copilot), [Shopify](https://www.shopify.com/magic), [Brex](https://www.brex.com/journal/press/brex-openai-ai-tools-for-finance-teams), [Hubspot](https://app.hubspot.com/chatspot/chat), etc. Yet, building a Copilot that goes beyond a Twitter demo is extremely complex as it's <u>time-consuming</u>, <u>unreliable</u> and feels like a <u>massive undertaking</u>. Moreover, existing solutions such as Microsoft Copilot Stack are closed-source. **OpenCopilot** enables every developer to build their own copilot in an <u>intuitive</u>, <u>fast</u> and <u>reliable</u> way - **all in a single day**. 
+Copilots are becoming the new paradigm how to build successful LLM-based applications, as seen by [Github](https://github.com/features/copilot), [Shopify](https://www.shopify.com/magic), [Brex](https://www.brex.com/journal/press/brex-openai-ai-tools-for-finance-teams), [Hubspot](https://app.hubspot.com/chatspot/chat), etc Copilots. Yet, building a Copilot that goes beyond a Twitter demo is extremely complex as it's time-consuming, unreliable and feels like a massive undertaking. Moreover, existing solutions such as Microsoft Copilot Stack are closed-source. Building an LLM-app today feels like:
 
-For example, you can build or integrate copilots into existing products such as:
+![Author: Soham Chatterjee](https://github.com/opencopilotdev/opencopilot/assets/3767980/f98def43-38b6-40ed-956b-8b5498c08318)
+
+OpenCopilot solves this problem so building your own Copilot becomes intuitive, fast and reliable - all so **you can build your copilot in a single day**. For example, you can build Copilots such as:
 
 **🛠️ Developer tooling Copilot**
 
@@ -52,6 +54,8 @@ For example, you can build or integrate copilots into existing products such as:
 * Example: [Shopify Copilot](https://www.shopify.com/magic)
   
 See more [use cases in docs](https://docs.opencopilot.dev/welcome/overview#use-cases).
+
+
 
 ## 🔍 Stack Overview
 OpenCopilot provides one coherent end-to-end stack which is purposely designed for building a variety of copilots. From LLM selection (OSS LLMs upcoming), knowledge base, monitoring, evaluation, etc - it covers all the needs to build a useful copilot.
@@ -70,7 +74,7 @@ As prerequisites, you need to have **Python 3.8+** and **pip** installed.
 pip install opencopilot-ai
 ```
 
-### 2. Make a new python file to set up a minimal Copilot
+### 2. Create a new python file to set up a minimal Copilot
 For example, `copilot.py`, where you add the code from below. Also, add your own `openai_api_key`, which you can get [from here](https://platform.openai.com/account/api-keys).
 
 If you don't have access to `gpt-4`, change the variable to `gpt-3.5-turbo-16k`.
@@ -87,7 +91,7 @@ copilot = OpenCopilot(
 # Run the copilot
 copilot()
 ```
-See our docs on [Configuration](https://docs.opencopilot.dev/integrate/configuration) if you'd like to learn more about the configuration variables.
+See our docs on [Configuration](https://docs.opencopilot.dev/integrate/configuration) if you'd like to learn more about other configuration options.
 
 ### 3. Create a prompt template
 In the same directory create a text file, for example `my_prompt.txt`, add the following:
@@ -106,16 +110,16 @@ Parrot Copilot answer in Markdown:
 
 The template variables will be filled at runtime; see our docs on [Prompting](https://docs.opencopilot.dev/improve/prompting) if you'd like to learn more.
 
-### 3. Run the Copilot
+### 4. Run the Copilot
 
 ```bash
 python copilot.py
 ```
 
-Your minimal copilot is now running as an API service, at `localhost:3000` by default. See the [interactive Swagger docs](http://localhost:3000/docs#/Chat/handle_conversation_v0_conversation__conversation_id__post) for full API documentation.
+Your minimal copilot is now running as an API service, at `localhost:3000` by default. To see the full API documentation, go to [interactive Swagger docs](http://localhost:3000/docs#/Chat/handle_conversation_v0_conversation__conversation_id__post).
 
-### 4. Chat with the Copilot
-You can quickly test and chat with your copilot using the command-line interface by running:
+### 5. Chat with the Copilot
+You can quickly test out and chat with your copilot using the command-line interface by running:
 
 ```bash
 opencopilot chat "Hello, who are you?"
@@ -125,7 +129,7 @@ opencopilot chat "Hello, who are you?"
 
 While setting up the minimal copilot is quick, easy and fun, adding knowledge base to your copilot unlocks a whole new experience. Read how to customize your Copilot from the [documentation](https://docs.opencopilot.dev/improve/customize-your-copilo), which covers:
 
-* Customizing your copilot by prompting
+* Customizing your copilot with prompting
 * Adding knowledge base
 * Automatic evaluation
 * Debugging LLM generation, retrieval, etc.
@@ -133,7 +137,7 @@ While setting up the minimal copilot is quick, easy and fun, adding knowledge ba
 
 ## Optional: front-end
 
-If you'd like to set up an out of the box front-end for your Copilot, clone and follow the instructions in the [opencopilotdev/opencopilot-frontend](https://github.com/opencopilotdev/opencopilot-frontend) repository.
+If you'd like to set up an out of the box front-end for your Copilot, follow the instructions in the [opencopilotdev/opencopilot-frontend](https://github.com/opencopilotdev/opencopilot-frontend) repository.
 
 <img width="666" alt="Screenshot 2023-08-28 at 14 23 39" src="https://github.com/opencopilotdev/opencopilot/assets/22053381/6eab1f6a-a3ad-4649-a5e9-9abeb2ffcee9">
 
