@@ -34,11 +34,11 @@
 
 ## Overview
 
-Copilots are becoming the new paradigm how to build successful LLM-based applications, as seen by Github , Shopify, Brex, Hubspot, etc Copilots. Yet, building a Copilot that goes beyond a Twitter demo is extremely complex as it's time-consuming, unreliable and feels like a massive undertaking. Moreover, existing solutions such as Microsoft Copilot Stack are closed-source. Building an LLM-app today feels like:
+Copilots are becoming the new paradigm how to build successful LLM-based applications, as seen by [Github](https://github.com/features/copilot), [Shopify](https://www.shopify.com/magic), [Brex](https://www.brex.com/journal/press/brex-openai-ai-tools-for-finance-teams), [Hubspot](https://app.hubspot.com/chatspot/chat), etc Copilots. Yet, building a Copilot that goes beyond a Twitter demo is extremely complex as it's <u>time-consuming</u>, <u>unreliable</u> and <u>feels like a massive undertaking</u>. Moreover, existing solutions such as Microsoft Copilot Stack are closed-source. Building an LLM-app today feels like:
 
 ![Author: Soham Chatterjee](https://github.com/opencopilotdev/opencopilot/assets/3767980/f98def43-38b6-40ed-956b-8b5498c08318)
 
-OpenCopilot solves this problem so building your own Copilot becomes intuitive, fast and reliable - all so **you can build your copilot in a single day**. For example, you can build Copilots such as:
+**OpenCopilot** solves this by making the building of your own Copilot <u>intuitive</u>, <u>fast</u> and <u>reliable</u> - all so **you can build your copilot in a single day**. For example, you can build Copilots such as:
 
 **🛠️ Developer tooling Copilot**
 
@@ -61,20 +61,31 @@ OpenCopilot provides one coherent end-to-end stack which is purposely designed f
 
 ![opencopilot_stack](https://github.com/opencopilotdev/opencopilot/assets/5147210/140ca313-cf8a-4635-913e-8dbb5e33e8d4)
 
-## Quickstart
+**Orchestration:** The main copilot server that exposes key copilot functionalities via Fast API so you can quickly and intuitively integrate these to your application using the OpenCopilot Python library.
+
+**Iterative Development:** Out of the box tooling that enables the core development & fast iterations to improve your copilot with little to no friciton.
+
+**Application:** [Copilot UI template](##optional:front-end) as the front-end layer that runs on top of the OpenCopilot stack.
+
+**Models:** Any major LLM API or self-hosted open-source LLM (coming soon) that sits below the orchestration layer can be effortlessly plugged into the stack.
+
+> [!NOTE]
+> To get your first copilot done in no time, we recommend taking advantage of using the stack as a whole. However, the stack is built modularly so each part can be eventually swapped if needed. 
+
+## ⚡ Quickstart
 
 As prerequisites, you need to have **Python 3.8+** and **pip** installed.
 
-### 1. Install the Python package
+### 1. Install the OpenCopilot Python package
 
 ```bash
 pip install opencopilot-ai
 ```
 
-### 2. Create a minimal Copilot
+### 2. Make a new python file to set up a minimal Copilot
+For example, `copilot.py`, where you add the code from below. Also, add your own `openai_api_key`, which you can get [from here](https://platform.openai.com/account/api-keys).
 
-Into a Python file (for example, `copilot.py`), add:
-
+If you don't have access to `gpt-4`, change the variable to `gpt-3.5-turbo-16k`.
 
 ```python
 from opencopilot import OpenCopilot
@@ -88,8 +99,10 @@ copilot = OpenCopilot(
 # Run the copilot
 copilot()
 ```
+See our docs on [Configuration](https://docs.opencopilot.dev/integrate/configuration) if you'd like to learn more about the configuration variables.
 
-Make sure your custom prompt file exists: in `my_prompt.txt`, add the following:
+### 3. Create a prompt template
+In the same directory create a text file, for example `my_prompt.txt`, add the following:
 
 ```txt
 Your are a Parrot Copilot. Your purpose is to repeat what the user says, but in a different wording.
@@ -111,53 +124,36 @@ The template variables will be filled at runtime; see our docs on [Prompting](ht
 python copilot.py
 ```
 
-That's it! Your minimal copilot is now running as an API service, at `localhost:3000` by default 🎉
+Your minimal copilot is now running as an API service, at `localhost:3000` by default. See the [interactive Swagger docs](http://localhost:3000/docs#/Chat/handle_conversation_v0_conversation__conversation_id__post) for full API documentation.
 
-You can quickly test and chat with it in the terminal by running:
+### 4. Chat with the Copilot
+You can quickly test and chat with your copilot using the command-line interface by running:
 
 ```bash
 opencopilot chat "Hello, who are you?"
 ```
 
-See the [interactive Swagger docs](http://localhost:3000/docs#/Chat/handle_conversation_v0_conversation__conversation_id__post) for full API documentation.
+> [!NOTE]
+> While setting up the minimal copilot is quick, easy and fun, adding knowledge base to your copilot unlocks a whole new experience, see more below.
+
 
 ## 📖 Customizing, improving, testing and deploying your Copilot
 
-Please see the full [documentation](https://docs.opencopilot.dev/welcome/introduction) to:
+See the [documentation](https://docs.opencopilot.dev/improve/customize-your-copilo) to customize your copilot:
 
-* **Start improving your copilot**: [customize your copilot by prompting](https://docs.opencopilot.dev/improve/customize-your-copilot), adding knowledge base, etc.
-* Read more about the core features and stack choices of OpenCopilot in [Overview](/welcome/overview).
+* Customize your copilot by prompting
+* Adding knowledge base
+* Automatic evaluation
+* Debugging LLM generation, retrieval, etc.
+* Read more about the core features and stack choices of OpenCopilot in [Overview](https://docs.opencopilot.dev/welcome/overview).
 
 ## Optional: front-end
 
-If you'd like to have a front-end for your Copilot, then you can easily deploy it. As a pre-requisite, you need to have [`pnpm`](https://pnpm.io/) installed.
+If you'd like to set up an out of the box front-end for your Copilot, clone and follow the instructions in the [opencopilotdev/opencopilot-frontend](https://github.com/opencopilotdev/opencopilot-frontend) repository.
 
-First, clone the [opencopilotdev/opencopilot-frontend](https://github.com/opencopilotdev/opencopilot-frontend) repository:
+<img width="666" alt="Screenshot 2023-08-28 at 14 23 39" src="https://github.com/opencopilotdev/opencopilot/assets/22053381/6eab1f6a-a3ad-4649-a5e9-9abeb2ffcee9">
 
-```bash
-git clone https://github.com/opencopilotdev/opencopilot-frontend
-```
 
-Then, setup the environment variables:
-
-```bash
-cd opencopilot-frontend
-cp .env.example .env
-```
-
-Install the dependencies:
-
-```bash
-pnpm install
-```
-
-Run the front-end application:
-
-```bash
-pnpm run dev
-```
-
-You can now access the front-end at http://localhost:3001.
 
 ## Getting help
 
