@@ -23,6 +23,9 @@ jobs:
         run: |
           pip install --upgrade pip
           pip install --upgrade build
+      - name: "Build opencopilot-ai"
+        run: |
+          python -m build
       - name: "Install opencopilot-ai"
         run: |
           wheel_path=dist/$(ls dist | grep .whl)
