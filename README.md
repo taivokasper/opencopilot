@@ -32,13 +32,11 @@
 </p>
 
 
-## Overview
+## 🕊️ OpenCopilot Overview
 
-Copilots are becoming the new paradigm how to build successful LLM-based applications, as seen by [Github](https://github.com/features/copilot), [Shopify](https://www.shopify.com/magic), [Brex](https://www.brex.com/journal/press/brex-openai-ai-tools-for-finance-teams), [Hubspot](https://app.hubspot.com/chatspot/chat), etc Copilots. Yet, building a Copilot that goes beyond a Twitter demo is extremely complex as it's <u>time-consuming</u>, <u>unreliable</u> and <u>feels like a massive undertaking</u>. Moreover, existing solutions such as Microsoft Copilot Stack are closed-source. Building an LLM-app today feels like:
+Copilots are becoming the new paradigm how to build successful LLM-based applications, as seen by [Github](https://github.com/features/copilot), [Shopify](https://www.shopify.com/magic), [Brex](https://www.brex.com/journal/press/brex-openai-ai-tools-for-finance-teams), [Hubspot](https://app.hubspot.com/chatspot/chat), etc. Yet, building a Copilot that goes beyond a Twitter demo is extremely complex as it's <u>time-consuming</u>, <u>unreliable</u> and feels like a <u>massive undertaking</u>. Moreover, existing solutions such as Microsoft Copilot Stack are closed-source. **OpenCopilot** enables every developer to build their own copilot in an <u>intuitive</u>, <u>fast</u> and <u>reliable</u> way - **all in a single day**. 
 
-![Author: Soham Chatterjee](https://github.com/opencopilotdev/opencopilot/assets/3767980/f98def43-38b6-40ed-956b-8b5498c08318)
-
-**OpenCopilot** solves this by making the building of your own Copilot <u>intuitive</u>, <u>fast</u> and <u>reliable</u> - all so **you can build your copilot in a single day**. For example, you can build Copilots such as:
+For example, you can build or integrate copilots into existing products such as:
 
 **🛠️ Developer tooling Copilot**
 
@@ -55,22 +53,12 @@ Copilots are becoming the new paradigm how to build successful LLM-based applica
   
 See more [use cases in docs](https://docs.opencopilot.dev/welcome/overview#use-cases).
 
-## OpenCopilot overview
-
+## 🔍 Stack Overview
 OpenCopilot provides one coherent end-to-end stack which is purposely designed for building a variety of copilots. From LLM selection (OSS LLMs upcoming), knowledge base, monitoring, evaluation, etc - it covers all the needs to build a useful copilot.
 
 ![opencopilot_stack](https://github.com/opencopilotdev/opencopilot/assets/5147210/140ca313-cf8a-4635-913e-8dbb5e33e8d4)
 
-**Orchestration:** The main copilot server that exposes key copilot functionalities via Fast API so you can quickly and intuitively integrate these to your application using the OpenCopilot Python library.
-
-**Iterative Development:** Out of the box tooling that enables the core development & fast iterations to improve your copilot with little to no friciton.
-
-**Application:** [Copilot UI template](##optional:front-end) as the front-end layer that runs on top of the OpenCopilot stack.
-
-**Models:** Any major LLM API or self-hosted open-source LLM (coming soon) that sits below the orchestration layer can be effortlessly plugged into the stack.
-
-> [!NOTE]
-> To get your first copilot done in no time, we recommend taking advantage of using the stack as a whole. However, the stack is built modularly so each part can be eventually swapped if needed. 
+See our docs on [Stack Overview](https://docs.opencopilot.dev/welcome/overview#stack-overview) to learn more about each part of the OpenCopilot stack.
 
 ## ⚡ Quickstart
 
@@ -133,15 +121,11 @@ You can quickly test and chat with your copilot using the command-line interface
 opencopilot chat "Hello, who are you?"
 ```
 
-> [!NOTE]
-> While setting up the minimal copilot is quick, easy and fun, adding knowledge base to your copilot unlocks a whole new experience, see more below.
-
-
 ## 📖 Customizing, improving, testing and deploying your Copilot
 
-See the [documentation](https://docs.opencopilot.dev/improve/customize-your-copilo) to customize your copilot:
+While setting up the minimal copilot is quick, easy and fun, adding knowledge base to your copilot unlocks a whole new experience. Read how to customize your Copilot from the [documentation](https://docs.opencopilot.dev/improve/customize-your-copilo), which covers:
 
-* Customize your copilot by prompting
+* Customizing your copilot by prompting
 * Adding knowledge base
 * Automatic evaluation
 * Debugging LLM generation, retrieval, etc.
