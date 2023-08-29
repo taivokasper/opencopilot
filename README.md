@@ -77,14 +77,14 @@ pip install opencopilot-ai
 ### 2. Create a new python file to set up a minimal Copilot
 For example, `copilot.py`, where you add the code from below. Also, add your own `openai_api_key`, which you can get [from here](https://platform.openai.com/account/api-keys).
 
-If you don't have access to `gpt-4`, change the variable to `gpt-3.5-turbo-16k`.
+If you have access to GPT-4, change `llm_model_name` to `gpt-4`.
 
 ```python
 from opencopilot import OpenCopilot
 
 copilot = OpenCopilot(
     openai_api_key="your-openai-api-key",
-    llm_model_name="gpt-4",
+    llm_model_name="gpt-3.5-turbo-16k",
     prompt_file="my_prompt.txt"
     )
 
