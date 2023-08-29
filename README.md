@@ -127,7 +127,7 @@ opencopilot chat "Hello, who are you?"
 
 ## 📖 Customizing, improving, testing and deploying your Copilot
 
-While setting up the minimal copilot is quick, easy and fun, adding knowledge base to your copilot unlocks a whole new experience. Read how to customize your Copilot from the [documentation](https://docs.opencopilot.dev/improve/customize-your-copilo), which covers:
+While setting up the minimal copilot is quick, easy and fun, adding knowledge base to your copilot unlocks a whole new experience. Read how to customize your Copilot from the [documentation](https://docs.opencopilot.dev/improve/customize-your-copilot), which covers:
 
 * Customizing your copilot with prompting
 * Adding knowledge base
