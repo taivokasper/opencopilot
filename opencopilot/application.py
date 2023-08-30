@@ -7,6 +7,7 @@ from typing import Optional
 import uvicorn
 from langchain.schema import Document
 
+from .utils.validators import validate_openai_api_key
 from . import settings
 from .settings import Settings
 
@@ -39,9 +40,8 @@ class OpenCopilot:
     ):
         if not openai_api_key:
             openai_api_key = os.getenv("OPENAI_API_KEY")
-        assert (
-            openai_api_key
-        ), "OPENAI_API_KEY must be passed to OpenCopilot or be set in the environment."
+
+        validate_openai_api_key(openai_api_key)
 
         settings.set(
             Settings(
